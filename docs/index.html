@@ -19,6 +19,20 @@
 <body>
 <style>
 @font-face {
+    font-family: NanumGothic;
+    font-style: normal;
+    font-weight: 400;
+    src: url("./fonts/NanumGothic-400.woff") format("woff");
+}
+
+@font-face {
+    font-family: NanumGothic;
+    font-style: normal;
+    font-weight: 700;
+    src: url("./fonts/NanumGothic-700.woff") format("woff");
+}
+
+@font-face {
     font-family: NanumSquare;
     font-style: normal;
     font-weight: 400;
@@ -35,49 +49,46 @@
 * {box-sizing: border-box; margin: 0; padding: 0; font-family: inherit; font-style: normal; font-weight: inherit; font-size: inherit; line-height: inherit; text-decoration: inherit; color: inherit; vertical-align: top; outline: none;}
 
 html {width: 100%; height: 100%; -ms-touch-action: manipulation; touch-action: manipulation;}
-body {width: 100%; height: 100%; font-family: NanumGothic; font-weight: 400; font-size: 17px; line-height: 1.5; color: #666666; -webkit-font-smoothing: antialiased; /*font-smoothing: antialiased;*/ -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 100%; -webkit-print-color-adjust: exact;}
+body {width: 100%; height: 100%; font-family: NanumSquare; font-weight: 400; font-size: 17px; line-height: 1.5; color: #666666; -webkit-font-smoothing: antialiased; /*font-smoothing: antialiased;*/ -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 100%; -webkit-print-color-adjust: exact;}
 
 table {width: 100%; border-spacing: 0; table-layout: fixed;}
 
 td, th {vertical-align: middle;}
 
-#plugin {overflow: hidden; position: relative; width: 100%; min-width: 1100px; min-height: 100vh; padding: 50px 0; font-family: NanumSquare; background: #eeeeee;}
+#outer {overflow: hidden; position: relative; width: 100%; min-width: 1100px; min-height: 100vh; padding: 50px 0; background: #eeeeee;}
 
-#eclipse {width: 1100px; padding: 100px 50px; margin: 0 auto; background: #ffffff;}
-#eclipse h1 {margin: 0 0 100px; font-weight: 700; font-size: 40px; color: #000000;}
-#eclipse h2 {margin: 0 0 20px; font-weight: 700; font-size: 24px; color: #000000;}
-#eclipse .greeting {margin: 0 0 100px;}
-#eclipse .greeting .txt strong {font-weight: 400; color: #000000;}
-#eclipse .greeting .link {display: inline-block; margin: 10px 0 0; color: #1d86dc;}
+#inner {width: 1100px; padding: 100px 50px; margin: 0 auto; background: #ffffff;}
+#inner h1 {margin: 0 0 100px; font-weight: 700; font-size: 40px; color: #000000;}
+#inner h2 {margin: 0 0 20px; font-weight: 700; font-size: 24px; color: #000000;}
+#inner .greeting {margin: 0 0 100px;}
+#inner .greeting .txt strong {font-weight: 400; color: #000000;}
+#inner .greeting .link {display: inline-block; margin: 10px 0 0; color: #1d86dc;}
 
-#eclipse .options {margin: 0 0 100px;}
-#eclipse .options table thead tr th {padding: 15px; color: #000000; text-align: center; background: #f7f7f7;}
-#eclipse .options table tbody tr td {padding: 15px; text-align: center; border-bottom: 1px solid #dddddd;}
+#inner .options {margin: 0 0 100px;}
+#inner .options table thead tr th {padding: 15px; color: #000000; text-align: center; background: #f7f7f7;}
+#inner .options table tbody tr td {padding: 15px; text-align: center; border-bottom: 1px solid #dddddd;}
 
-#eclipse .methods {margin: 0 0 100px;}
+#inner .methods {margin: 0 0 100px;}
+#inner .methods table thead tr th {padding: 15px; color: #000000; text-align: center; background: #f7f7f7;}
+#inner .methods table tbody tr td {padding: 15px; text-align: center; border-bottom: 1px solid #dddddd;}
 
-#eclipse .demowrap {margin: 0 0 100px;}
-#eclipse .demowrap .demo {width: 800px; margin: 0 auto 100px;}
-#eclipse .demowrap .demo:last-child {margin-bottom: 0;}
-#eclipse .demowrap .demo .desc {margin: 0 0 20px;}
-#eclipse .demowrap .demo .desc .tit {color: #000000;}
-#eclipse .demowrap .demo .desc .txt {margin: 10px 0 0;}
-#eclipse .demowrap .demo .source {margin: 30px 0 0; padding: 25px; border-radius: 15px; background: #1e1e1e; font-family: NanumSquare; font-size: 14px; line-height: 1.5; color: #ffffff; letter-spacing: 0.1em;}
-#eclipse .demowrap .demo .source .hljs-tag {color: #569cd6;}
-#eclipse .demowrap .demo .source .hljs-attr {color: #9cdcfe;}
-#eclipse .demowrap .demo .source .hljs-string {color: #ce723b;}
-#eclipse .demowrap .demo .source .hljs-number {color: #b5cea8;}
-
-#eclipse .download .link {padding: 0 50px;}
-#eclipse .download .link a {color: #1d86dc;}
-
-#eclipse5 .eclipse-slides {opacity: 0.3;}
-#eclipse5 .eclipse-active-2 {opacity: 1;}
-#eclipse5 .eclipse-outer {overflow: hidden; width: 600px; margin: 0 auto; border-radius: 15px;}
-#eclipse5 .eclipse-outer .eclipse-slider {margin: 0 -150px;}
+#inner .demowrap {margin: 0 0 100px;}
+#inner .demowrap .demo {width: 800px; margin: 0 auto 100px;}
+#inner .demowrap .demo:last-child {margin-bottom: 0;}
+#inner .demowrap .demo .desc {margin: 0 0 20px;}
+#inner .demowrap .demo .desc .tit {color: #000000;}
+#inner .demowrap .demo .desc .txt {margin: 10px 0 0;}
+#inner .demowrap .demo .source {margin: 30px 0 0; padding: 25px; border-radius: 15px; background: #1e1e1e; font-family: NanumGothic; font-size: 14px; line-height: 1.5; color: #ffffff; letter-spacing: 0.1em;}
+#inner .demowrap .demo .source .hljs-tag {color: #569cd6;}
+#inner .demowrap .demo .source .hljs-attr {color: #9cdcfe;}
+#inner .demowrap .demo .source .hljs-string {color: #ce723b;}
+#inner .demowrap .demo .source .hljs-number {color: #b5cea8;}
+#inner .demowrap .demo .source .hljs-selector-id {color: #d7983d;}
+#inner .demowrap .demo .source .hljs-selector-class {color: #d7983d;}
+#inner .demowrap .demo .source .hljs-attribute {color: #9cdcfe;}
 </style>
-    <div id="plugin">
-        <div id="eclipse">
+    <div id="outer">
+        <div id="inner">
             <h1>jQuery slider plugin - Eclipse</h1>
             <section class="greeting">
                 <h2>1. 개요</h2>
@@ -259,6 +270,10 @@ td, th {vertical-align: middle;}
                         <h3 class="tit">5. countIndex 옵션을 통한 커스터마이징</h3>
                     </div>
                     <div id="eclipse5">
+                        <style>
+                            #eclipse5 .eclipse-slides {opacity: 0.3;}
+                            #eclipse5 .eclipse-active-2 {opacity: 1;}
+                        </style>
                         <div class="eclipse-slider">
                             <div>first</div>
                             <div>02</div>
