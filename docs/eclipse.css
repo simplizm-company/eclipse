@@ -12,6 +12,6 @@
 .eclipse-paging-button:first-child {margin-left: 0;}
 .eclipse-paging-active {background: #000000;}
 
-.eclipse-arrow {display: block; position: absolute; top: 50%; width: 21px; height: 35px; margin: -18px 0 0; background: url(arrow.png) 0 0 no-repeat; text-indent: -9999em; border: none; -webkit-appearance: none; appearance: none; cursor: pointer;}
+.eclipse-arrow {display: block; position: absolute; top: 50%; width: 21px; height: 35px; margin: -18px 0 0; background: url(images/arrow.png) 0 0 no-repeat; text-indent: -9999em; border: none; -webkit-appearance: none; appearance: none; cursor: pointer;}
 .eclipse-arrow.eclipse-prev {left: -50px; transform: rotate(180deg);}
 .eclipse-arrow.eclipse-next {right: -50px;}
