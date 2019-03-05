@@ -104,7 +104,8 @@
                 arrayCheckPoint: [],
                 thisPageIndex: 0,
                 pagerComputedLength: 0,
-                autoplayInterval: null
+                autoplayInterval: null,
+                initFlag: false
             }
 
             _.$eclipse = $(element);
@@ -232,9 +233,10 @@
         if (nextIndex == 'next') {
             _.initials.thisPageIndex++;
             _.initials.thisPageIndex = _.initials.thisPageIndex !== _.initials.arrayCheckPoint.length ? _.initials.thisPageIndex : 0;
+
             if (_.options.slidesToMove !== 1) {
-                if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 1 && _.initials.arrayCheckPoint.slice(-1)[0] + _.options.slidesToShow >= _.initials.slidesCount) {
-                    computedNextIndex = _.initials.arrayCheckPoint.slice(-1)[0] % _.options.slidesToMove;
+                if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 1) {
+                    computedNextIndex = _.initials.arrayCheckPoint.slice(-1)[0] - _.initials.arrayCheckPoint.slice(-2)[0];
                 } else {
                     if (_.initials.thisPageIndex == 0) {
                         computedNextIndex = _.options.slidesToShow;
@@ -250,12 +252,13 @@
         if (nextIndex == 'prev') {
             _.initials.thisPageIndex--;
             _.initials.thisPageIndex = _.initials.thisPageIndex !== -1 ? _.initials.thisPageIndex : _.initials.arrayCheckPoint.length - 1;
+
             if (_.options.slidesToMove !== 1) {
-                if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 2 && _.initials.arrayCheckPoint.slice(-1)[0] + _.options.slidesToMove >= _.initials.slidesCount) {
-                    computedNextIndex = -_.initials.arrayCheckPoint.slice(-1)[0] % _.options.slidesToMove;
+                if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 1) {
+                    computedNextIndex = -_.options.slidesToShow;
                 } else {
-                    if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 1) {
-                        computedNextIndex = -_.options.slidesToShow;
+                    if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 2) {
+                        computedNextIndex = _.initials.arrayCheckPoint.slice(-2)[0] - _.initials.arrayCheckPoint.slice(-1)[0];
                     } else {
                         computedNextIndex = -_.options.slidesToMove;
                     }
@@ -450,7 +453,7 @@
 
         _.initials.slidesCount = _.$slides.length;
         _.initials.sliderWidth = _.$slider.width();
-        _.options.slidesToMove = _.initials.slidesCount - _.options.slidesToShow < _.options.slidesToMove ? 1 : _.options.slidesToMove;
+        // _.options.slidesToMove = _.initials.slidesCount - _.options.slidesToShow < _.options.slidesToMove ? 1 : _.options.slidesToMove;
         _.initials.thisPageIndex = _.options.startIndex;
 
         if (_.options.slidesToMove === 1) {
@@ -581,13 +584,48 @@
         clearInterval(_.initials.autoplayInterval);
     }
 
-    Eclipse.prototype.init = function () {
+    Eclipse.prototype.resetInit = function () {
+        var _ = this;
+
+        if (_.$paging) {
+            _.$paging.remove();
+        }
+        if (_.$arrowNext) {
+            _.$arrowNext.remove();
+        }
+        if (_.$arrowPrev) {
+            _.$arrowPrev.remove();
+        }
+
+        _.initials.viewIndex = [];
+        _.initials.computedIndexArray = [];
+        _.initials.arrayCheckPoint = [];
+    }
+
+    Eclipse.prototype.reinit = function () {
+        var _ = this;
+
+        _.resetInit();
+        _.setGlobalClass();
+        _.setSlidesCSS();
+        _.setInitials();
+        _.setSlidesEach();
+        _.buildControls();
+        _.setEvents();
+    }
+
+    Eclipse.prototype.setGlobalClass = function () {
         var _ = this;
 
         _.$eclipse.addClass('eclipse-wrapper')
         _.$slider = _.$eclipse.find('.eclipse-slider');
         _.$slides = _.$slider.children().addClass(`eclipse-slides`);
+    }
 
+    Eclipse.prototype.init = function () {
+        var _ = this;
+
+        _.setGlobalClass();
         _.setSlidesCSS();
         _.setInitials();
         _.setSlidesEach();
