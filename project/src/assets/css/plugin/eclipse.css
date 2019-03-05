@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+.eclipse-wrapper {position: relative;}
+
+.eclipse-slides {height: 300px; border-radius: 15px; background: #d3d5f5; font-size: 50px; line-height: 300px; text-align: center; color: #000000; z-index: 1;}
+.eclipse-active {z-index: 10;}
+
+.eclipse-clone {z-index: 0 !important;}
+
+.eclipse-paging {position: absolute; left: 50%; bottom: 30px; z-index: 11; transform: translateX(-50%);}
+.eclipse-paging-button {width: 15px; height: 15px; margin: 0 0 0 10px; background: #8389e0; border-radius: 50%; text-indent: -9999em;}
+.eclipse-paging-button:first-child {margin-left: 0;}
+.eclipse-paging-active {background: #000000;}
+
+.eclipse-arrow {position: absolute; top: 50%; width: 21px; height: 35px; margin: -18px 0 0; background: url(../../images/common/arrow.png) 0 0 no-repeat; text-indent: -9999em;}
+.eclipse-arrow.eclipse-prev {left: -50px; transform: rotate(180deg);}
+.eclipse-arrow.eclipse-next {right: -50px;}

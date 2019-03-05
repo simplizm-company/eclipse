@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=1100px, user-scalable=no">
+    <meta name="description" content="jquery slider, eclipse slider, 슬라이더, 제이쿼리 슬라이더, 이클립스, eclipse">
+    <meta name="keywords" content="jquery, slider, plugin, eclipse, 슬라이더, 제이쿼리, 이클립스">
+    <meta name="author" content="simplizm">
+    <meta property="og:title" content="eclipse slider">
+    <meta property="og:description" content="jquery slider plugin eclipse">
+    <title>eclipse slider</title>
+    <link rel="shortcut icon" type="image/x-icon" href="">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/plugin/eclipse.css"></link>
+    <script src="/assets/js/library/jquery-3.2.1.min.js"></script>
+    <script src="/assets/js/plugin/core.js"></script>
+    <script src="/assets/js/plugin/eclipse.js"></script>
+    <script src="/assets/js/plugin/highlight.js"></script>
+    <script src="/assets/js/ui.js"></script>
+</head>
+<body>
+<style>
+#plugin {overflow: hidden; position: relative; width: 100%; min-width: 1100px; min-height: 100vh; padding: 50px 0; font-family: NanumSquare; background: #eeeeee;}
+
+#eclipse {width: 1100px; padding: 100px 50px; margin: 0 auto; background: #ffffff;}
+#eclipse h1 {margin: 0 0 100px; font-weight: 700; font-size: 40px; color: #000000;}
+#eclipse h2 {margin: 0 0 20px; font-weight: 700; font-size: 24px; color: #000000;}
+#eclipse .greeting {margin: 0 0 100px;}
+#eclipse .greeting .txt strong {font-weight: 400; color: #000000;}
+#eclipse .greeting .cdn {padding: 25px; margin: 20px 0 0; border-radius: 15px; background: #1e1e1e; color: #569cd6;}
+#eclipse .greeting .cdn .hljs-attr {color: #9cdcfe;}
+#eclipse .greeting .cdn .hljs-string {color: #ce723b;}
+
+#eclipse .options {margin: 0 0 100px;}
+#eclipse .options table thead tr th {padding: 15px; color: #000000; text-align: center; background: #f7f7f7;}
+#eclipse .options table tbody tr td {padding: 15px; text-align: center; border-bottom: 1px solid #dddddd;}
+
+#eclipse .methods {margin: 0 0 100px;}
+
+#eclipse .demowrap {margin: 0 0 100px;}
+#eclipse .demowrap .demo {width: 800px; margin: 0 auto 100px;}
+#eclipse .demowrap .demo:last-child {margin-bottom: 0;}
+#eclipse .demowrap .demo .desc {margin: 0 0 20px;}
+#eclipse .demowrap .demo .desc .tit {color: #000000;}
+#eclipse .demowrap .demo .desc .txt {margin: 10px 0 0;}
+#eclipse .demowrap .demo .source {margin: 30px 0 0; padding: 25px; border-radius: 15px; background: #1e1e1e; font-family: NanumGothic; font-size: 14px; line-height: 1.5; color: #ffffff; letter-spacing: 0.1em;}
+#eclipse .demowrap .demo .source .hljs-tag {color: #569cd6;}
+#eclipse .demowrap .demo .source .hljs-attr {color: #9cdcfe;}
+#eclipse .demowrap .demo .source .hljs-string {color: #ce723b;}
+#eclipse .demowrap .demo .source .hljs-number {color: #b5cea8;}
+
+#eclipse .download .link {padding: 0 50px;}
+#eclipse .download .link a {color: #1d86dc;}
+
+#eclipse5 .eclipse-slides {opacity: 0.3;}
+#eclipse5 .eclipse-active-2 {opacity: 1;}
+#eclipse5 .eclipse-outer {overflow: hidden; width: 600px; margin: 0 auto; border-radius: 15px;}
+#eclipse5 .eclipse-outer .eclipse-slider {margin: 0 -150px;}
+</style>
+    <div id="plugin">
+        <div id="eclipse">
+            <h1>jQuery slider plugin - Eclipse</h1>
+            <section class="greeting">
+                <h2>1. 개요</h2>
+                <p class="txt">이미지 및 컨텐츠 롤링 기능이 있는 <strong>jquery 슬라이더 플러그인</strong> 입니다.<br>
+                오늘도 영문사이트 보시느라 눈이 아플 한국의 웹퍼블리셔 및 웹개발자들을 위해 만들어 봤습니다.<br>
+                사용자피드백을 통해 지속적으로 업데이트 할 예정입니다.</p>
+                <pre class="cdn"><code>CDN
+&lt;link <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"http://simplizm.com/project/default/assets/css/plugin/eclipse.css"</span>&gt;&lt;/link&gt;
+&lt;script <span class="hljs-attr">src</span>=<span class="hljs-string">"http://simplizm.com/project/default/assets/js/plugin/core.js"</span>&gt;&lt;/script&gt;
+&lt;script <span class="hljs-attr">src</span>=<span class="hljs-string">"http://simplizm.com/project/default/assets/js/plugin/eclipse.js"</span>&gt;&lt;/script&gt;</code></pre>
+            </section>
+            <section class="options">
+                <h2>2. 옵션표</h2>
+                <table>
+                    <colgroup>
+                        <col style="width: 15%;">
+                        <col style="width: 15%;">
+                        <col style="width: auto;">
+                        <col style="width: 15%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>옵션명</th>
+                            <th>옵션값 타입</th>
+                            <th>옵션 설명</th>
+                            <th>기본값</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>startIndex</td>
+                            <td>number</td>
+                            <td>슬라이더 시작 인덱스 값 지정</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>arrow</td>
+                            <td>boolean</td>
+                            <td>화살표 네비게이션의 사용 여부</td>
+                            <td>true</td>
+                        </tr>
+                        <tr>
+                            <td>pager</td>
+                            <td>boolean</td>
+                            <td>단추 네비게이션의 사용 여부</td>
+                            <td>true</td>
+                        </tr>
+                        <tr>
+                            <td>slidesToShow</td>
+                            <td>number</td>
+                            <td>한번에 보여질 슬라이드의 갯수</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>slidesToMove</td>
+                            <td>number</td>
+                            <td>한번에 이동될 슬라이드의 갯수</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>speed</td>
+                            <td>number</td>
+                            <td>슬라이드 전환 속도<br>(단위 : ms)</td>
+                            <td>500</td>
+                        </tr>
+                        <tr>
+                            <td>margin</td>
+                            <td>number</td>
+                            <td>슬라이드간 간격<br>(단위 : px)</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>friction</td>
+                            <td>number</td>
+                            <td>마우스드래그 및 터치무브로 슬라이드 전환시 감도 조절<br>(단위 : px)</td>
+                            <td>200</td>
+                        </tr>
+                        <tr>
+                            <td>countIndex</td>
+                            <td>number</td>
+                            <td>첫번째 활성 슬라이드의 인덱스값을 조절</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="methods">
+                <h2>3. 메소드 (준비중입니다)</h2>
+            </section>
+            <section class="demowrap">
+                <h2>4. 데모 및 소스</h2>
+                <section class="demo">
+                    <div class="desc">
+                        <h3 class="tit">1. 기본 슬라이더</h3>
+                    </div>
+                    <div id="eclipse1">
+                        <div class="eclipse-slider">
+                            <div>first</div>
+                            <div>02</div>
+                            <div>03</div>
+                            <div>04</div>
+                            <div>last</div>
+                        </div>
+                        <script>
+                            $('#eclipse1').eclipse();
+                        </script>
+                    </div>
+                </section>
+                <section class="demo">
+                    <div class="desc">
+                        <h3 class="tit">2. 간격조정</h3>
+                    </div>
+                    <div id="eclipse2">
+                        <div class="eclipse-slider">
+                            <div>first</div>
+                            <div>02</div>
+                            <div>03</div>
+                            <div>04</div>
+                            <div>last</div>
+                        </div>
+                        <script>
+                            $('#eclipse2').eclipse({
+                                margin: 20
+                            });
+                        </script>
+                    </div>
+                </section>
+                <section class="demo">
+                    <div class="desc">
+                        <h3 class="tit">3. 시작인덱스</h3>
+                    </div>
+                    <div id="eclipse3">
+                        <div class="eclipse-slider">
+                            <div>first</div>
+                            <div>02</div>
+                            <div>03</div>
+                            <div>04</div>
+                            <div>last</div>
+                        </div>
+                        <script>
+                            $('#eclipse3').eclipse({
+                                startIndex: 1
+                            });
+                        </script>
+                    </div>
+                </section>
+                <section class="demo">
+                    <div class="desc">
+                        <h3 class="tit">4. 보여지는 슬라이드 갯수, 넘어가는 슬라이드 갯수</h3>
+                    </div>
+                    <div id="eclipse4">
+                        <div class="eclipse-slider">
+                            <div>first</div>
+                            <div>02</div>
+                            <div>03</div>
+                            <div>04</div>
+                            <div>last</div>
+                        </div>
+                        <script>
+                            $('#eclipse4').eclipse({
+                                margin: 20,
+                                slidesToShow: 2,
+                                slidesToMove: 2
+                            });
+                        </script>
+                    </div>
+                </section>
+                <section class="demo">
+                    <div class="desc">
+                        <h3 class="tit">5. countIndex 옵션을 통한 커스터마이징</h3>
+                    </div>
+                    <div id="eclipse5">
+                        <div class="eclipse-slider">
+                            <div>first</div>
+                            <div>02</div>
+                            <div>03</div>
+                            <div>04</div>
+                            <div>05</div>
+                            <div>06</div>
+                            <div>07</div>
+                            <div>08</div>
+                            <div>09</div>
+                            <div>last</div>
+                        </div>
+                        <script>
+                            $('#eclipse5').eclipse({
+                                margin: 20,
+                                slidesToShow: 3,
+                                countIndex: 1
+                            });
+                        </script>
+                    </div>
+                </section>
+                <section class="demo">
+                    <div class="desc">
+                        <h3 class="tit">6. autoplay 활성화</h3>
+                    </div>
+                    <div id="eclipse6">
+                        <div class="eclipse-slider">
+                            <div>first</div>
+                            <div>02</div>
+                            <div>03</div>
+                            <div>04</div>
+                            <div>last</div>
+                        </div>
+                        <script>
+                            $('#eclipse6').eclipse({
+                                margin: 20,
+                                autoplay: true,
+                                interval: 2000
+                            });
+                        </script>
+                    </div>
+                </section>
+            </section>
+        </div>
+        <script>
+            $.ajax({
+                url: 'index.html',
+                timeout: 10000,
+                dataType: 'html',
+                success: function (data) {
+                    $(data).find('section.demo').each(function (i) {
+                        $(this).children('.desc').remove();
+                        var code = $(this).html();
+                        var $pre = $('<pre class="source"><code></code></pre>').appendTo($('section.demo').eq(i)).children('code');
+
+                        code = code.replace(/</gi, '&lt;').replace(/>/gi, '&gt;');
+                        code = code.substring(code.indexOf('\n') + 1);
+                        code = code.substring(code.lastIndexOf('\n') + 1, -1);
+                        var between = code.split('\n')[0].split(' ').length;
+                        var newCode = [];
+
+                        code.split('\n').forEach(function (self) {
+                            self = self.replace(self.substring(0, between - 1), '');
+                            newCode += '\n' + self;
+                        });
+
+                        newCode = newCode.substring(newCode.indexOf('\n') + 2);
+                        newCode = newCode.substring(newCode.lastIndexOf('\n') + 1, -1);
+
+                        $pre.html(newCode);
+                    }).promise().done(function () {
+                        hljs.initHighlightingOnLoad();
+                    });
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
