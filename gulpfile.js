@@ -5,10 +5,10 @@ gulp.task('server', function () {
     browserSync.init({
         port: 1234,
         server: {
-            baseDir: './eclipse/'
+            baseDir: './docs/'
         }
     });
-    gulp.watch('eclipse/**/*.*', browserSync.reload);
+    gulp.watch('docs/**/*.*', browserSync.reload);
 });
 
 gulp.task('default', ['server']);
