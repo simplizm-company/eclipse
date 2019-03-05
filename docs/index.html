@@ -305,7 +305,6 @@ td, th {vertical-align: middle;}
         </div>
         <script>
             $(document).ready(function () {
-                hljs.initHighlightingOnLoad();
                 $.ajax({
                     url: 'index.html',
                     timeout: 10000,
@@ -331,6 +330,10 @@ td, th {vertical-align: middle;}
                             newCode = newCode.substring(newCode.lastIndexOf('\n') + 1, -1);
 
                             $pre.html(newCode);
+                        }).promise().done(function () {
+                            $('pre > code').each(function () {
+                                hljs.highlightBlock(this);
+                            })
                         });
                     }
                 });
