@@ -13,7 +13,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="">
     <link rel="stylesheet" href="eclipse.css"></link>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
     <script src="eclipse.js"></script>
 </head>
 <body>
@@ -304,35 +304,37 @@ td, th {vertical-align: middle;}
             </section>
         </div>
         <script>
-            $.ajax({
-                url: 'index.html',
-                timeout: 10000,
-                dataType: 'html',
-                success: function (data) {
-                    $(data).find('section.demo').each(function (i) {
-                        $(this).children('.desc').remove();
-                        var code = $(this).html();
-                        var $pre = $('<pre class="source"><code></code></pre>').appendTo($('section.demo').eq(i)).children('code');
+            $(document).ready(function () {
+                $.ajax({
+                    url: 'index.html',
+                    timeout: 10000,
+                    dataType: 'html',
+                    success: function (data) {
+                        $(data).find('section.demo').each(function (i) {
+                            $(this).children('.desc').remove();
+                            var code = $(this).html();
+                            var $pre = $('<pre class="source"><code></code></pre>').appendTo($('section.demo').eq(i)).children('code');
 
-                        code = code.replace(/</gi, '&lt;').replace(/>/gi, '&gt;');
-                        code = code.substring(code.indexOf('\n') + 1);
-                        code = code.substring(code.lastIndexOf('\n') + 1, -1);
-                        var between = code.split('\n')[0].split(' ').length;
-                        var newCode = [];
+                            code = code.replace(/</gi, '&lt;').replace(/>/gi, '&gt;');
+                            code = code.substring(code.indexOf('\n') + 1);
+                            code = code.substring(code.lastIndexOf('\n') + 1, -1);
+                            var between = code.split('\n')[0].split(' ').length;
+                            var newCode = [];
 
-                        code.split('\n').forEach(function (self) {
-                            self = self.replace(self.substring(0, between - 1), '');
-                            newCode += '\n' + self;
+                            code.split('\n').forEach(function (self) {
+                                self = self.replace(self.substring(0, between - 1), '');
+                                newCode += '\n' + self;
+                            });
+
+                            newCode = newCode.substring(newCode.indexOf('\n') + 2);
+                            newCode = newCode.substring(newCode.lastIndexOf('\n') + 1, -1);
+
+                            $pre.html(newCode);
+                        }).promise().done(function () {
+                            hljs.initHighlightingOnLoad();
                         });
-
-                        newCode = newCode.substring(newCode.indexOf('\n') + 2);
-                        newCode = newCode.substring(newCode.lastIndexOf('\n') + 1, -1);
-
-                        $pre.html(newCode);
-                    }).promise().done(function () {
-                        hljs.initHighlightingOnLoad();
-                    });
-                }
+                    }
+                });
             });
         </script>
     </div>
