@@ -453,7 +453,7 @@
 
         _.initials.slidesCount = _.$slides.length;
         _.initials.sliderWidth = _.$slider.width();
-        // _.options.slidesToMove = _.initials.slidesCount - _.options.slidesToShow < _.options.slidesToMove ? 1 : _.options.slidesToMove;
+        _.options.slidesToMove = _.options.slidesToMove > _.options.slidesToShow ? _.options.slidesToShow : _.options.slidesToMove;
         _.initials.thisPageIndex = _.options.startIndex;
 
         if (_.options.slidesToMove === 1) {

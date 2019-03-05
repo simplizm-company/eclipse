@@ -356,13 +356,13 @@ td, th {vertical-align: middle;}
                         </div>
                         <button id="addSlides">slides 추가</button>
                         <script>
-                            var index = 0;
                             var $eclipse7 = $('#eclipse7').eclipse({
                                 slidesToShow: 3,
                                 slidesToMove: 3,
                                 margin: 20
                             });
-    
+
+                            var index = 0;
                             $('#addSlides').on('click', function () {
                                 index++;
                                 $('#eclipse7 .eclipse-slider').append(`<div>add ${index}</div>`);
