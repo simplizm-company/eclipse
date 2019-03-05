@@ -11,16 +11,34 @@
     <meta property="og:description" content="jquery slider plugin eclipse">
     <title>eclipse slider</title>
     <link rel="shortcut icon" type="image/x-icon" href="">
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/assets/css/plugin/eclipse.css"></link>
-    <script src="/assets/js/library/jquery-3.2.1.min.js"></script>
-    <script src="/assets/js/plugin/core.js"></script>
-    <script src="/assets/js/plugin/eclipse.js"></script>
-    <script src="/assets/js/plugin/highlight.js"></script>
-    <script src="/assets/js/ui.js"></script>
+    <link rel="stylesheet" href="eclipse.css"></link>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script src="eclipse.js"></script>
 </head>
 <body>
 <style>
+@font-face {
+    font-family: NanumSquare;
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/NanumSquare-400.woff") format("woff");
+}
+
+@font-face {
+    font-family: NanumSquare;
+    font-style: normal;
+    font-weight: 700;
+    src: url("/fonts/NanumSquare-700.woff") format("woff");
+}
+
+* {box-sizing: border-box; margin: 0; padding: 0; font-family: inherit; font-style: normal; font-weight: inherit; font-size: inherit; line-height: inherit; text-decoration: inherit; color: inherit; vertical-align: top; outline: none;}
+
+html {width: 100%; height: 100%; -ms-touch-action: manipulation; touch-action: manipulation;}
+body {width: 100%; height: 100%; font-family: NanumGothic; font-weight: 400; font-size: 17px; line-height: 1.5; color: #666666; -webkit-font-smoothing: antialiased; /*font-smoothing: antialiased;*/ -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 100%; -webkit-print-color-adjust: exact;}
+
+table {width: 100%; border-spacing: 0; table-layout: fixed;}
+
 #plugin {overflow: hidden; position: relative; width: 100%; min-width: 1100px; min-height: 100vh; padding: 50px 0; font-family: NanumSquare; background: #eeeeee;}
 
 #eclipse {width: 1100px; padding: 100px 50px; margin: 0 auto; background: #ffffff;}
@@ -44,7 +62,7 @@
 #eclipse .demowrap .demo .desc {margin: 0 0 20px;}
 #eclipse .demowrap .demo .desc .tit {color: #000000;}
 #eclipse .demowrap .demo .desc .txt {margin: 10px 0 0;}
-#eclipse .demowrap .demo .source {margin: 30px 0 0; padding: 25px; border-radius: 15px; background: #1e1e1e; font-family: NanumGothic; font-size: 14px; line-height: 1.5; color: #ffffff; letter-spacing: 0.1em;}
+#eclipse .demowrap .demo .source {margin: 30px 0 0; padding: 25px; border-radius: 15px; background: #1e1e1e; font-family: NanumSquare; font-size: 14px; line-height: 1.5; color: #ffffff; letter-spacing: 0.1em;}
 #eclipse .demowrap .demo .source .hljs-tag {color: #569cd6;}
 #eclipse .demowrap .demo .source .hljs-attr {color: #9cdcfe;}
 #eclipse .demowrap .demo .source .hljs-string {color: #ce723b;}
@@ -66,10 +84,6 @@
                 <p class="txt">이미지 및 컨텐츠 롤링 기능이 있는 <strong>jquery 슬라이더 플러그인</strong> 입니다.<br>
                 오늘도 영문사이트 보시느라 눈이 아플 한국의 웹퍼블리셔 및 웹개발자들을 위해 만들어 봤습니다.<br>
                 사용자피드백을 통해 지속적으로 업데이트 할 예정입니다.</p>
-                <pre class="cdn"><code>CDN
-&lt;link <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"http://simplizm.com/project/default/assets/css/plugin/eclipse.css"</span>&gt;&lt;/link&gt;
-&lt;script <span class="hljs-attr">src</span>=<span class="hljs-string">"http://simplizm.com/project/default/assets/js/plugin/core.js"</span>&gt;&lt;/script&gt;
-&lt;script <span class="hljs-attr">src</span>=<span class="hljs-string">"http://simplizm.com/project/default/assets/js/plugin/eclipse.js"</span>&gt;&lt;/script&gt;</code></pre>
             </section>
             <section class="options">
                 <h2>2. 옵션표</h2>
