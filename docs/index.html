@@ -389,6 +389,28 @@ td, th {vertical-align: middle;}
                         </script>
                     </div>
                 </section>
+                <section class="demo">
+                    <div class="desc">
+                        <h3 class="tit">8. adaptiveHeight</h3>
+                    </div>
+                    <div id="eclipse8">
+                        <style>
+                            #eclipse8 .eclipse-slides {height: auto; line-height: 0;}
+                        </style>
+                        <div class="eclipse-slider">
+                            <div><img src="https://dummyimage.com/600x200/d3d6f5/000000" alt=""></div>
+                            <div><img src="https://dummyimage.com/600x400/d3d5f5/000000" alt=""></div>
+                            <div><img src="https://dummyimage.com/600x600/d3d5f5/000000" alt=""></div>
+                            <div><img src="https://dummyimage.com/600x400/d3d5f5/000000" alt=""></div>
+                        </div>
+                        <script>
+                            $('#eclipse8').eclipse({
+                                startIndex: 1,
+                                adaptiveHeight: true
+                            });
+                        </script>
+                    </div>
+                </section>
             </section>
         </div>
         <script>

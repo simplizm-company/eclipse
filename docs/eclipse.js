@@ -111,7 +111,8 @@
                 thisPageIndex: 0,
                 pagerComputedLength: 0,
                 autoplayInterval: null,
-                resizeFlag: false
+                resizeFlag: false,
+                sliderHeight: 0
             }
 
             _.events = {
@@ -208,6 +209,7 @@
         var _ = this;
 
         _.setPagerClass();
+        _.setSliderHeight();
 
         setTimeout(function () {
             _.initials.playActionFlag = false;
@@ -430,6 +432,16 @@
         }
     }
 
+    Eclipse.prototype.setSliderHeight = function () {
+        var _ = this;
+
+        _.initials.sliderHeight = 0;
+        for (var i = 0; i < _.initials.viewIndex.length; i++) {
+            _.initials.sliderHeight = _.$slides.eq(_.initials.viewIndex[i])[0].height > _.initials.sliderHeight ? _.$slides.eq(_.initials.viewIndex[i])[0].height : _.initials.sliderHeight;
+        }
+        _.$slider.css({'height': _.initials.sliderHeight});
+    }
+
     Eclipse.prototype.setSlidesCSS = function () {
         var _ = this;
 
@@ -524,6 +536,8 @@
 
     Eclipse.prototype.clickMove = function (e) {
         var _ = this;
+
+        e.preventDefault();
 
         _.initials.clickMovePosX = _.initials.clickStartPosX - e.posX;
         _.initials.clickMovePosY = _.initials.clickStartPosY - e.posY;
@@ -671,7 +685,6 @@
         var _ = this;
 
         $(window).off(_.events.resize).on(_.events.resize, function () {
-            console.log(_.events.resize);
             if (!_.initials.resizeFlag) {
                 setTimeout(function () {
                     _.initials.resizeFlag = false;
@@ -680,6 +693,24 @@
             }
             _.initials.resizeFlag = true;
         });
+    }
+
+    Eclipse.prototype.sliderLoaded = function (callback) {
+        var _ = this;
+
+        var max = _.$slider.find('img').length;
+        var load = 0;
+
+        if (max) {
+            _.$slider.find('img').one('load', function () {
+                load++;
+                if (this.complete && load == max) {
+                    callback();
+                }
+            });
+        } else {
+            callback();
+        }
     }
 
     Eclipse.prototype.setGlobalClass = function () {
@@ -694,7 +725,23 @@
         var _ = this;
 
         _.resetInit();
-        _.init();
+
+        _.setGlobalClass();
+        _.setSlidesCSS();
+        _.setInitials();
+
+        _.loadedInit();
+    }
+
+    Eclipse.prototype.loadedInit = function () {
+        var _ = this;
+
+        _.setSlidesEach();
+        _.setSliderHeight();
+        _.buildControls();
+        _.setEvents();
+        _.setAutoplay();
+        _.resizeSlider();
     }
 
     Eclipse.prototype.init = function () {
@@ -703,11 +750,10 @@
         _.setGlobalClass();
         _.setSlidesCSS();
         _.setInitials();
-        _.setSlidesEach();
-        _.buildControls();
-        _.setEvents();
-        _.setAutoplay();
-        _.resizeSlider();
+
+        _.sliderLoaded(function () {
+            _.loadedInit();
+        });
     }
 
     $.fn.eclipse = function(){
