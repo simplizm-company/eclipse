@@ -494,7 +494,7 @@
     Eclipse.prototype.clickStart = function (e) {
         var _ = this;
 
-        e.preventDefault();
+        e.stopPropagation();
 
         if (!_.initials.playActionFlag && _.initials.slidesCount > _.options.slidesToShow) {
             _.initials.clickStartPosX = e.posX;
