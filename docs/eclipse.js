@@ -85,7 +85,7 @@
                 countIndex: 0, // 첫번째 활성 슬라이드의 인덱스값을 조절
                 autoplay: false, // 자동 롤링
                 interval: 3000, // 자동 롤링 시간 간격
-                autoControl: false
+                autoControl: false // 자동롤링 controler 사용 여부
             }
 
             _.options = $.extend({}, _.defaults, settings);
@@ -553,8 +553,6 @@
 
     Eclipse.prototype.clickEnd = function (e) {
         var _ = this;
-
-        console.log('clickend');
 
         if (Math.abs(_.initials.clickMovePosX) > _.options.friction) {
             if (_.initials.clickMovePosX > 0) {
