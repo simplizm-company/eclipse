@@ -101,6 +101,8 @@ td, th {vertical-align: middle;}
 #inner .demowrap .demo .source .hljs-selector-id {color: #d7983d;}
 #inner .demowrap .demo .source .hljs-selector-class {color: #d7983d;}
 #inner .demowrap .demo .source .hljs-attribute {color: #9cdcfe;}
+#inner .demowrap .demo .source .hljs-keyword {color: #569cd6;}
+#inner .demowrap .demo .source .hljs-literal {color: #569cd6;}
 </style>
     <div id="outer">
         <div id="inner">
@@ -351,18 +353,14 @@ td, th {vertical-align: middle;}
                 </section>
                 <section class="demo">
                     <div class="desc">
-                        <h3 class="tit">7. slides 추가</h3>
+                        <h3 class="tit">7. slides 추가 및 삭제</h3>
                     </div>
                     <div id="eclipse7">
                         <div class="eclipse-slider">
-                            <div>first</div>
-                            <div>02</div>
-                            <div>03</div>
-                            <div>04</div>
-                            <div>05</div>
-                            <div>last</div>
+                            <div>1</div>
                         </div>
-                        <button id="addSlides">slides 추가</button>
+                        <button id="appendSlide">slides 추가</button>
+                        <button id="removeSlide">slides 삭제</button>
                         <script>
                             var $eclipse7 = $('#eclipse7').eclipse({
                                 slidesToShow: 3,
@@ -370,10 +368,14 @@ td, th {vertical-align: middle;}
                                 margin: 20
                             });
 
-                            var index = 0;
-                            $('#addSlides').on('click', function () {
-                                index++;
-                                $('#eclipse7 .eclipse-slider').append(`<div>add ${index}</div>`);
+                            var index = 1;
+                            $('#appendSlide').on('click', function () {
+                                $('#eclipse7 .eclipse-slider').append(`<div>${++index}</div>`);
+                                $eclipse7.eclipse('reinit');
+                            });
+                            $('#removeSlide').on('click', function () {
+                                index > 0 ? index-- : index = 0;
+                                $('#eclipse7 .eclipse-slides').last().remove();
                                 $eclipse7.eclipse('reinit');
                             });
                         </script>

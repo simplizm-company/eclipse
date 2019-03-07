@@ -359,7 +359,7 @@
     Eclipse.prototype.buildControls = function () {
         var _ = this;
 
-        if (_.options.arrow === true) {
+        if (_.options.arrow === true && _.initials.slidesCount > _.options.slidesToShow) {
             var prev = $(`<button>prev</button>`).addClass(`eclipse-arrow eclipse-prev`),
                 next = $(`<button>next</button>`).addClass(`eclipse-arrow eclipse-next`);
             _.$arrowPrev = prev.appendTo(_.$eclipse);
@@ -441,7 +441,7 @@
                 _.$slider.css({
                     'overflow': 'hidden',
                     'position': 'relative',
-                    'height': _.$slides[_.initials.viewIndex[0]].height
+                    'height': _.$slides.length ? _.$slides[_.initials.viewIndex[0]].height : 0
                 });
                 _.setActiveClass(_.$slides);
             });
@@ -536,7 +536,9 @@
     Eclipse.prototype.setPagerClass = function () {
         var _ = this;
 
-        _.$pagingButton.eq(_.initials.thisPageIndex).addClass('eclipse-paging-active').siblings().removeClass('eclipse-paging-active');
+        if (_.$pagingButton) {
+            _.$pagingButton.eq(_.initials.thisPageIndex).addClass('eclipse-paging-active').siblings().removeClass('eclipse-paging-active');
+        }
     }
 
     Eclipse.prototype.setEvents = function () {
@@ -548,22 +550,28 @@
             }
         });
 
-        _.$arrowPrev.on('click', function () {
-            _.preparationAction(function () {
-                _.goToSlidesPrevOrNext('prev');
+        if (_.$arrowPrev) {
+            _.$arrowPrev.on('click', function () {
+                _.preparationAction(function () {
+                    _.goToSlidesPrevOrNext('prev');
+                });
             });
-        });
+        }
 
-        _.$arrowNext.on('click', function () {
-            _.preparationAction(function () {
-                _.goToSlidesPrevOrNext('next');
+        if (_.$arrowNext) {
+            _.$arrowNext.on('click', function () {
+                _.preparationAction(function () {
+                    _.goToSlidesPrevOrNext('next');
+                });
             });
-        });
+        }
 
-        _.$pagingButton.on('click', function () {
-            _.initials.thisPageIndex = $(this).index();
-            _.goToSlides(_.initials.arrayCheckPoint[$(this).index()]);
-        });
+        if (_.$pagingButton) {
+            _.$pagingButton.on('click', function () {
+                _.initials.thisPageIndex = $(this).index();
+                _.goToSlides(_.initials.arrayCheckPoint[$(this).index()]);
+            });
+        }
     }
 
     Eclipse.prototype.setAutoplay = function () {
@@ -606,12 +614,7 @@
         var _ = this;
 
         _.resetInit();
-        _.setGlobalClass();
-        _.setSlidesCSS();
-        _.setInitials();
-        _.setSlidesEach();
-        _.buildControls();
-        _.setEvents();
+        _.init();
     }
 
     Eclipse.prototype.setGlobalClass = function () {
