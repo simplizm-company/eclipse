@@ -98,9 +98,9 @@
                 viewIndex: [], // 보여지는 slides의 배열
                 computedIndexArray: [], // 계산용 index 배열
                 clickStartFlag: false, // click start flag
-                clickStartPosX: 0,
-                clickMovePosX: 0,
-                setMoveChecker: false,
+                clickStartPosX: 0, // click start pageX
+                clickMovePosX: 0, // mouse or touch move pageX
+                setMoveChecker: false, // left or right move checker
                 arrayCheckPoint: [],
                 thisPageIndex: 0,
                 pagerComputedLength: 0,
@@ -544,7 +544,7 @@
     Eclipse.prototype.setEvents = function () {
         var _ = this;
 
-        _.$slider.on({
+        _.$slider.off('clickstart.eclipse').on({
             'clickstart.eclipse': function (e) {
                 _.clickStart(e);
             }
