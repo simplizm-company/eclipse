@@ -5,7 +5,7 @@
 
 .eclipse-hide {display: none !important;}
 
-.eclipse-slides {height: 300px; border-radius: 15px; background: #d3d5f5; font-size: 50px; line-height: 300px; text-align: center; color: #000000; z-index: 1;}
+.eclipse-slides {height: 300px; border-radius: 15px; background: #d3d5f5; font-size: 50px; line-height: 300px; text-align: center; color: #000000; z-index: 1; user-select: none;}
 .eclipse-active {z-index: 10;}
 
 .eclipse-clone {z-index: 0 !important;}

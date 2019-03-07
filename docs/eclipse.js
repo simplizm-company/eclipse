@@ -67,6 +67,8 @@
     var Eclipse = window.Eclipse || {};
 
     Eclipse = (function(){
+        var fnidx = 0;
+
         function eclipse(element, settings){
             var _ = this;
 
@@ -89,6 +91,7 @@
             _.options = $.extend({}, _.defaults, settings);
 
             _.initials = {
+                fnidx: ++fnidx,
                 slidesCount: 0, // slides 갯수
                 thisIndex: 0, // 현재 index
                 thisLastIndex: 0, // active중 마지막 index
@@ -108,7 +111,15 @@
                 thisPageIndex: 0,
                 pagerComputedLength: 0,
                 autoplayInterval: null,
-                initFlag: false
+                resizeFlag: false
+            }
+
+            _.events = {
+                click: `click.eclipse${_.initials.fnidx}`,
+                clickstart: `clickstart.eclipse${_.initials.fnidx}`,
+                clickmove: `clickmove.eclipse${_.initials.fnidx}`,
+                clickend: `clickend.eclipse${_.initials.fnidx}`,
+                resize: `resize.eclipse${_.initials.fnidx}`
             }
 
             _.$eclipse = $(element);
@@ -431,6 +442,8 @@
 
     Eclipse.prototype.setSlidesEach = function () {
         var _ = this;
+        
+        _.initials.sliderWidth = _.$slider.width();
         var indexTemp = [];
         var vi = _.options.startIndex;
 
@@ -474,7 +487,6 @@
         var _ = this;
 
         _.initials.slidesCount = _.$slides.length;
-        _.initials.sliderWidth = _.$slider.width();
         _.options.slidesToMove = _.options.slidesToMove > _.options.slidesToShow ? _.options.slidesToShow : _.options.slidesToMove;
         _.initials.thisPageIndex = _.options.startIndex;
 
@@ -499,14 +511,13 @@
         if (!_.initials.playActionFlag && _.initials.slidesCount > _.options.slidesToShow) {
             _.initials.clickStartPosX = e.posX;
             _.initials.clickStartPosY = e.posY;
-    
-            $(document).on({
-                'clickmove.eclipse': function (e) {
-                    _.clickMove(e);
-                },
-                'clickend.eclipse': function (e) {
-                    _.clickEnd(e);
-                }
+
+            $(document).on(_.events.clickmove, function (e) {
+                _.clickMove(e);
+            });
+
+            $(document).on(_.events.clickend, function (e) {
+                _.clickEnd(e);
             });
         }
     }
@@ -543,6 +554,8 @@
     Eclipse.prototype.clickEnd = function (e) {
         var _ = this;
 
+        console.log('clickend');
+
         if (Math.abs(_.initials.clickMovePosX) > _.options.friction) {
             if (_.initials.clickMovePosX > 0) {
                 _.goToSlidesPrevOrNext('next');
@@ -553,7 +566,8 @@
         } else {
             _.goToSlidesPrevOrNext(0);
         }
-        $(document).off('clickmove.eclipse clickend.eclipse');
+        $(document).off(_.events.clickmove);
+        $(document).off(_.events.clickend);
         _.initials.clickStartPosX = 0;
         _.initials.clickStartPosY = 0;
         _.initials.clickMovePosX = 0;
@@ -572,14 +586,12 @@
     Eclipse.prototype.setEvents = function () {
         var _ = this;
 
-        _.$slider.off('clickstart.eclipse').on({
-            'clickstart.eclipse': function (e) {
-                _.clickStart(e);
-            }
+        _.$slider.off(_.events.clickstart).on(_.events.clickstart, function (e) {
+            _.clickStart(e);
         });
 
         if (_.$arrowPrev) {
-            _.$arrowPrev.on('click', function () {
+            _.$arrowPrev.on(_.events.click, function () {
                 _.preparationAction(function () {
                     _.goToSlidesPrevOrNext('prev');
                 });
@@ -587,7 +599,7 @@
         }
 
         if (_.$arrowNext) {
-            _.$arrowNext.on('click', function () {
+            _.$arrowNext.on(_.events.click, function () {
                 _.preparationAction(function () {
                     _.goToSlidesPrevOrNext('next');
                 });
@@ -595,17 +607,17 @@
         }
 
         if (_.$pagingButton) {
-            _.$pagingButton.on('click', function () {
+            _.$pagingButton.on(_.events.click, function () {
                 _.initials.thisPageIndex = $(this).index();
                 _.goToSlides(_.initials.arrayCheckPoint[$(this).index()]);
             });
         }
 
         if (_.options.autoControl === true) {
-            _.$autoPlay.on('click', function () {
+            _.$autoPlay.on(_.events.click, function () {
                 _.playAutoplay();
             });
-            _.$autoStop.on('click', function () {
+            _.$autoStop.on(_.events.click, function () {
                 _.stopAutoplay();
             });
         }
@@ -657,11 +669,19 @@
         _.initials.arrayCheckPoint = [];
     }
 
-    Eclipse.prototype.reinit = function () {
+    Eclipse.prototype.resizeSlider = function () {
         var _ = this;
 
-        _.resetInit();
-        _.init();
+        $(window).off(_.events.resize).on(_.events.resize, function () {
+            console.log(_.events.resize);
+            if (!_.initials.resizeFlag) {
+                setTimeout(function () {
+                    _.initials.resizeFlag = false;
+                    _.setSlidesEach();
+                }, 100);
+            }
+            _.initials.resizeFlag = true;
+        });
     }
 
     Eclipse.prototype.setGlobalClass = function () {
@@ -670,6 +690,13 @@
         _.$eclipse.addClass('eclipse-wrapper')
         _.$slider = _.$eclipse.find('.eclipse-slider');
         _.$slides = _.$slider.children().addClass(`eclipse-slides`);
+    }
+
+    Eclipse.prototype.reinit = function () {
+        var _ = this;
+
+        _.resetInit();
+        _.init();
     }
 
     Eclipse.prototype.init = function () {
@@ -682,6 +709,7 @@
         _.buildControls();
         _.setEvents();
         _.setAutoplay();
+        _.resizeSlider();
     }
 
     $.fn.eclipse = function(){
