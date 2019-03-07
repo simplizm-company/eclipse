@@ -474,7 +474,7 @@
 
         e.preventDefault();
 
-        if (!_.initials.playActionFlag) {
+        if (!_.initials.playActionFlag && _.initials.slidesCount > _.options.slidesToShow) {
             _.initials.clickStartPosX = e.posX;
     
             $(document).on({
