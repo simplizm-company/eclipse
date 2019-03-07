@@ -82,7 +82,8 @@
                 friction: 200, // mousemove, touchmove 감도
                 countIndex: 0, // 첫번째 활성 슬라이드의 인덱스값을 조절
                 autoplay: false, // 자동 롤링
-                interval: 3000 // 자동 롤링 시간 간격
+                interval: 3000, // 자동 롤링 시간 간격
+                autoControl: false
             }
 
             _.options = $.extend({}, _.defaults, settings);
@@ -359,25 +360,44 @@
     Eclipse.prototype.buildControls = function () {
         var _ = this;
 
-        if (_.options.arrow === true && _.initials.slidesCount > _.options.slidesToShow) {
-            var prev = $(`<button>prev</button>`).addClass(`eclipse-arrow eclipse-prev`),
-                next = $(`<button>next</button>`).addClass(`eclipse-arrow eclipse-next`);
-            _.$arrowPrev = prev.appendTo(_.$eclipse);
-            _.$arrowNext = next.appendTo(_.$eclipse);
-        }
+        if (_.initials.slidesCount > _.options.slidesToShow) {
+            if (_.options.arrow === true) {
+                var prev = $(`<button>prev</button>`).addClass(`eclipse-arrow eclipse-prev`),
+                    next = $(`<button>next</button>`).addClass(`eclipse-arrow eclipse-next`);
+                _.$arrowPrev = prev.appendTo(_.$eclipse);
+                _.$arrowNext = next.appendTo(_.$eclipse);
+            }
 
-        if (_.options.pager === true && _.initials.slidesCount > _.options.slidesToMove) {
-            if (_.options.slidesToMove == 1) {
-                _.initials.pagerComputedLength = _.initials.slidesCount;
-            } else {
-                _.initials.pagerComputedLength = Math.ceil((_.initials.slidesCount - _.options.slidesToShow) / _.options.slidesToMove) + 1;
+            if (_.options.pager === true || _.options.autoControl === true) {
+                _.$controls = $('<div class="eclipse-controls">').appendTo(_.$eclipse);
             }
-            var paging = $('<div />').addClass(`eclipse-paging`);
-            for (var i = 1; i <= _.initials.pagerComputedLength; i++) {
-                paging.append($(`<button>${i}</button>`).addClass(`eclipse-paging-button`));
+    
+            if (_.options.pager === true) {
+                if (_.options.slidesToMove == 1) {
+                    _.initials.pagerComputedLength = _.initials.slidesCount;
+                } else {
+                    _.initials.pagerComputedLength = Math.ceil((_.initials.slidesCount - _.options.slidesToShow) / _.options.slidesToMove) + 1;
+                }
+                var paging = $('<div />').addClass(`eclipse-paging`);
+                for (var i = 1; i <= _.initials.pagerComputedLength; i++) {
+                    paging.append($(`<button>${i}</button>`).addClass(`eclipse-paging-button`));
+                }
+                _.$paging = paging.appendTo(_.$controls);
+                _.$pagingButton = _.$paging.children();
             }
-            _.$paging = paging.appendTo(_.$eclipse);
-            _.$pagingButton = _.$paging.children();
+
+            if (_.options.autoControl === true) {
+                var play = $(`<button>prev</button>`).addClass(`eclipse-auto-play`),
+                    stop = $(`<button>next</button>`).addClass(`eclipse-auto-stop`);
+                _.$autoPlay = play.appendTo(_.$controls);
+                _.$autoStop = stop.appendTo(_.$controls);
+
+                if (_.options.autoplay === true) {
+                    _.$autoPlay.addClass('eclipse-hide');
+                } else {
+                    _.$autoStop.addClass('eclipse-hide');
+                }
+            }
         }
 
         _.setPagerClass();
@@ -572,31 +592,50 @@
                 _.goToSlides(_.initials.arrayCheckPoint[$(this).index()]);
             });
         }
+
+        if (_.options.autoControl === true) {
+            _.$autoPlay.on('click', function () {
+                _.playAutoplay();
+            });
+            _.$autoStop.on('click', function () {
+                _.stopAutoplay();
+            });
+        }
     }
 
     Eclipse.prototype.setAutoplay = function () {
         var _ = this;
 
         if (_.options.autoplay) {
-            _.initials.autoplayInterval = setInterval(function () {
-                _.preparationAction(function () {
-                    _.goToSlidesPrevOrNext('next');
-                });
-            }, _.options.interval);
+            _.playAutoplay();
         }
+    }
+
+    Eclipse.prototype.playAutoplay = function () {
+        var _ = this;
+
+        _.$autoPlay.addClass('eclipse-hide');
+        _.$autoStop.removeClass('eclipse-hide');
+        _.initials.autoplayInterval = setInterval(function () {
+            _.preparationAction(function () {
+                _.goToSlidesPrevOrNext('next');
+            });
+        }, _.options.interval);
     }
 
     Eclipse.prototype.stopAutoplay = function () {
         var _ = this;
 
+        _.$autoPlay.removeClass('eclipse-hide');
+        _.$autoStop.addClass('eclipse-hide');
         clearInterval(_.initials.autoplayInterval);
     }
 
     Eclipse.prototype.resetInit = function () {
         var _ = this;
 
-        if (_.$paging) {
-            _.$paging.remove();
+        if (_.$controls) {
+            _.$controls.remove();
         }
         if (_.$arrowNext) {
             _.$arrowNext.remove();
