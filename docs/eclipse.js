@@ -100,7 +100,9 @@
                 computedIndexArray: [], // 계산용 index 배열
                 clickStartFlag: false, // click start flag
                 clickStartPosX: 0, // click start pageX
+                clickStartPosY: 0, // click start pageY
                 clickMovePosX: 0, // mouse or touch move pageX
+                clickMovePosY: 0, // mouse or touch move pageY
                 setMoveChecker: false, // left or right move checker
                 arrayCheckPoint: [],
                 thisPageIndex: 0,
@@ -496,6 +498,7 @@
 
         if (!_.initials.playActionFlag && _.initials.slidesCount > _.options.slidesToShow) {
             _.initials.clickStartPosX = e.posX;
+            _.initials.clickStartPosY = e.posY;
     
             $(document).on({
                 'clickmove.eclipse': function (e) {
@@ -512,6 +515,9 @@
         var _ = this;
 
         _.initials.clickMovePosX = _.initials.clickStartPosX - e.posX;
+        _.initials.clickMovePosY = _.initials.clickStartPosY - e.posY;
+
+        _.initials.clickMovePosX = Math.abs(_.initials.clickMovePosY) > Math.abs(_.initials.clickMovePosX) ? 0 : _.initials.clickMovePosX;
 
         _.preparationAction();
 
@@ -549,7 +555,9 @@
         }
         $(document).off('clickmove.eclipse clickend.eclipse');
         _.initials.clickStartPosX = 0;
+        _.initials.clickStartPosY = 0;
         _.initials.clickMovePosX = 0;
+        _.initials.clickMovePosY = 0;
         _.initials.setMoveChecker = false;
     }
 
