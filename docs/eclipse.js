@@ -478,14 +478,10 @@
         var indexTemp = [];
         var vi = _.initials.arrayCheckPoint.length > 1 ? _.initials.arrayCheckPoint[_.options.startIndex] : 0;
 
-        console.log(_.initials.arrayCheckPoint, _.initials.arrayCheckPoint[_.options.startIndex]);
-
         for (var j = 0; j < _.options.slidesToShow; j++) {
             _.initials.viewIndex[j] = vi;
             vi = vi + 1 > _.initials.slidesCount - 1 ? 0 : vi + 1;
         }
-
-        console.log(_.initials.viewIndex);
 
         _.$slides.each(function (i) {
             if (i > (_.initials.slidesCount - 1) - _.options.countIndex) {
