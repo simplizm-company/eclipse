@@ -62,9 +62,9 @@ table {width: 100%; border-spacing: 0; table-layout: fixed;}
 
 td, th {vertical-align: middle;}
 
-#outer {overflow: hidden; position: relative; width: 100%; min-width: 1100px; min-height: 100vh; padding: 50px 0; background: #eeeeee;}
+#outer {overflow: hidden; position: relative; width: 100%; min-height: 100vh; padding: 50px; background: #eeeeee;}
 
-#inner {width: 1100px; padding: 100px 50px; margin: 0 auto; background: #ffffff;}
+#inner {max-width: 1100px; padding: 100px 100px; margin: 0 auto; background: #ffffff;}
 #inner h1 {margin: 0 0 100px; font-weight: 700; font-size: 40px; color: #000000;}
 #inner h2 {margin: 0 0 20px; font-weight: 700; font-size: 24px; color: #000000;}
 #inner .greeting {margin: 0 0 100px;}
@@ -87,12 +87,12 @@ td, th {vertical-align: middle;}
 #inner .methods table tbody tr td a {color: #569cd6;}
 
 #inner .demowrap {margin: 0 0 100px;}
-#inner .demowrap .demo {width: 800px; margin: 0 auto 100px;}
+#inner .demowrap .demo {width: 100%; margin: 0 auto 100px;}
 #inner .demowrap .demo:last-child {margin-bottom: 0;}
 #inner .demowrap .demo .desc {margin: 0 0 20px;}
 #inner .demowrap .demo .desc .tit {color: #000000;}
 #inner .demowrap .demo .desc .txt {margin: 10px 0 0;}
-#inner .demowrap .demo .source {margin: 30px 0 0; padding: 25px; border-radius: 15px; background: #1e1e1e; font-family: NanumGothic; font-size: 14px; line-height: 1.5; color: #ffffff; letter-spacing: 0.1em;}
+#inner .demowrap .demo .source {margin: 30px 0 0; padding: 25px; border-radius: 15px; background: #1e1e1e; font-family: NanumGothic; font-size: 14px; line-height: 1.5; color: #ffffff; letter-spacing: 0.1em; word-break:break-all; white-space: pre-wrap;}
 #inner .demowrap .demo .source .hljs-tag {color: #569cd6;}
 #inner .demowrap .demo .source .hljs-attr {color: #9cdcfe;}
 #inner .demowrap .demo .source .hljs-string {color: #ce723b;}
@@ -395,6 +395,7 @@ td, th {vertical-align: middle;}
                     <div id="eclipse8">
                         <style>
                             #eclipse8 .eclipse-slides {overflow: hidden; height: auto; line-height: 0;}
+                            #eclipse8 .eclipse-slides img {width: 100%;}
                         </style>
                         <div class="eclipse-slider">
                             <div><img src="https://dummyimage.com/600x200/d3d6f5/000000" alt=""></div>
@@ -403,7 +404,9 @@ td, th {vertical-align: middle;}
                             <div><img src="https://dummyimage.com/600x400/d3d5f5/000000" alt=""></div>
                         </div>
                         <script>
-                            $('#eclipse8').eclipse();
+                            $('#eclipse8').eclipse({
+                                adaptiveHeight: true
+                            });
                         </script>
                     </div>
                 </section>

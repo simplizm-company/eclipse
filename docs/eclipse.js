@@ -85,7 +85,8 @@
                 countIndex: 0, // 첫번째 활성 슬라이드의 인덱스값을 조절
                 autoplay: false, // 자동 롤링
                 interval: 3000, // 자동 롤링 시간 간격
-                autoControl: false // 자동롤링 controler 사용 여부
+                autoControl: false, // 자동롤링 controler 사용 여부
+                adaptiveHeight: false
             }
 
             _.options = $.extend({}, _.defaults, settings);
@@ -446,8 +447,14 @@
         var _ = this;
 
         _.initials.sliderHeight = 0;
-        for (var i = 0; i < _.initials.viewIndex.length; i++) {
-            _.initials.sliderHeight = _.$slides.eq(_.initials.viewIndex[i])[0].height > _.initials.sliderHeight ? _.$slides.eq(_.initials.viewIndex[i])[0].height : _.initials.sliderHeight;
+        if (_.options.adaptiveHeight) {
+            for (var i = 0; i < _.initials.viewIndex.length; i++) {
+                _.initials.sliderHeight = _.$slides.eq(_.initials.viewIndex[i])[0].height > _.initials.sliderHeight ? _.$slides.eq(_.initials.viewIndex[i])[0].height : _.initials.sliderHeight;
+            }
+        } else {
+            for (var i = 0; i < _.initials.slidesCount; i++) {
+                _.initials.sliderHeight = _.$slides.eq(i)[0].height > _.initials.sliderHeight ? _.$slides.eq(i)[0].height : _.initials.sliderHeight;
+            }
         }
         _.$slider.css({'height': _.initials.sliderHeight});
     }
@@ -700,6 +707,8 @@
         var timeout = false;
         var delta = 200;
 
+        sizeReinit();
+
         $(window).off(_.events.resize).on(_.events.resize, function () {
             rtime = new Date();
             if (timeout === false) {
@@ -713,20 +722,24 @@
                 setTimeout(resizeend, delta);
             } else {
                 timeout = false;
-                _.initials.sliderWidth = _.$slider.width();
-                _.$slides.each(function () {
-                    this.width = (_.initials.sliderWidth - (_.options.slidesToShow - 1) * _.options.margin) / _.options.slidesToShow;
-                    this.left = this.index == _.options.startIndex ? this.width * this.point : (this.width * this.point) + (this.point * _.options.margin);
-                    this.transform = 'translate3d(' + this.left + 'px, 0, 0)';
-                    $(this).css({'width': this.width}).css(_.autoPrefixer(0, 'none', this.transform));
-                }).promise().done(function () {
-                    _.$slides.each(function () {
-                        this.height = $(this).height();
-                    }).promise().done(function () {
-                        _.setSliderHeight();
-                    });
-                });
+                sizeReinit();
             }
+        }
+
+        function sizeReinit () {
+            _.initials.sliderWidth = _.$slider.width();
+            _.$slides.each(function () {
+                this.width = (_.initials.sliderWidth - (_.options.slidesToShow - 1) * _.options.margin) / _.options.slidesToShow;
+                this.left = this.index == _.options.startIndex ? this.width * this.point : (this.width * this.point) + (this.point * _.options.margin);
+                this.transform = 'translate3d(' + this.left + 'px, 0, 0)';
+                $(this).css({'width': this.width}).css(_.autoPrefixer(0, 'none', this.transform));
+            }).promise().done(function () {
+                _.$slides.each(function () {
+                    this.height = $(this).height();
+                }).promise().done(function () {
+                    _.setSliderHeight();
+                });
+            });
         }
     }
 
