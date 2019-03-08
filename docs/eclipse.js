@@ -476,12 +476,16 @@
         _.initials.viewIndex = [];
         _.initials.sliderWidth = _.$slider.width();
         var indexTemp = [];
-        var vi = _.options.startIndex;
+        var vi = _.initials.arrayCheckPoint.length > 1 ? _.initials.arrayCheckPoint[_.options.startIndex] : 0;
+
+        console.log(_.initials.arrayCheckPoint, _.initials.arrayCheckPoint[_.options.startIndex]);
 
         for (var j = 0; j < _.options.slidesToShow; j++) {
             _.initials.viewIndex[j] = vi;
             vi = vi + 1 > _.initials.slidesCount - 1 ? 0 : vi + 1;
         }
+
+        console.log(_.initials.viewIndex);
 
         _.$slides.each(function (i) {
             if (i > (_.initials.slidesCount - 1) - _.options.countIndex) {
@@ -493,8 +497,8 @@
                 this.width = (_.initials.sliderWidth - (_.options.slidesToShow - 1) * _.options.margin) / _.options.slidesToShow;
                 this.height = $(this).height();
                 this.index = i;
-                this.point = i - _.options.startIndex < 0 ? i - _.options.startIndex + _.initials.slidesCount : i - _.options.startIndex;
-                this.left = this.index == _.options.startIndex ? this.width * this.point : (this.width * this.point) + (this.point * _.options.margin);
+                this.point = i - _.initials.viewIndex[0] < 0 ? i - _.initials.viewIndex[0] + _.initials.slidesCount : i - _.initials.viewIndex[0];
+                this.left = this.index == _.initials.viewIndex[0] ? this.width * this.point : (this.width * this.point) + (this.point * _.options.margin);
                 this.transform = 'translate3d(' + this.left + 'px, 0, 0)';
     
                 indexTemp.push(i);
