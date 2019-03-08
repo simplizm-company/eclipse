@@ -364,7 +364,7 @@
     Eclipse.prototype.setActiveClass = function ($target) {
         var _ = this;
 
-        $target.each(function (i) {
+        $target.each(function () {
             for (var j = 0; j < _.initials.viewIndex.length; j++) {
                 if (this.index === _.initials.viewIndex[j]) {
                     $(this).addClass('eclipse-active eclipse-active-'+(j + 1));
@@ -462,10 +462,14 @@
     Eclipse.prototype.setSlidesCSS = function () {
         var _ = this;
 
-        _.$slides.css({
-            'float': 'none',
-            'position': 'absolute',
-            'top': 0
+        _.$slides.each(function () {
+            $(this).data('originalStyling', $(this).attr('style') || '');
+        }).promise().done(function () {
+            _.$slides.css({
+                'float': 'none',
+                'position': 'absolute',
+                'top': 0
+            });
         });
     }
 
@@ -504,10 +508,10 @@
                 for (var i = 0; i < 3; i++) {
                     _.initials.computedIndexArray.push.apply(_.initials.computedIndexArray, indexTemp);
                 }
+                _.$slider.data('originalStyling', _.$slider.attr('style') || '');
                 _.$slider.css({
                     'overflow': 'hidden',
-                    'position': 'relative',
-                    'height': _.$slides.length ? _.$slides[_.initials.viewIndex[0]].height : 0
+                    'position': 'relative'
                 });
                 _.setActiveClass(_.$slides);
             });
@@ -682,22 +686,26 @@
         clearInterval(_.initials.autoplayInterval);
     }
 
-    Eclipse.prototype.resetInit = function () {
+    Eclipse.prototype.removeElements = function () {
         var _ = this;
 
-        if (_.$controls) {
-            _.$controls.remove();
-        }
-        if (_.$arrowNext) {
-            _.$arrowNext.remove();
-        }
-        if (_.$arrowPrev) {
-            _.$arrowPrev.remove();
-        }
+        if (_.$controls) {_.$controls.remove();}
+        if (_.$arrowNext) {_.$arrowNext.remove();}
+        if (_.$arrowPrev) {_.$arrowPrev.remove();}
+        if (_.$autoPlay) {_.$autoPlay.remove();}
+        if (_.$autoStop) {_.$autoStop.remove();}
+    }
+
+    Eclipse.prototype.emptyInitials = function () {
+        var _ = this;
 
         _.initials.viewIndex = [];
         _.initials.computedIndexArray = [];
         _.initials.arrayCheckPoint = [];
+        _.appClone = [];
+        _.preClone = [];
+        _.$appClone = [];
+        _.$preClone = [];
     }
 
     Eclipse.prototype.resizeSlider = function () {
@@ -786,6 +794,25 @@
         }
     }
 
+    Eclipse.prototype.destroy = function (callback) {
+        var _ = this;
+
+        _.$slides.each(function () {
+            for (var j = 0; j < _.initials.viewIndex.length; j++) {
+                if (this.index === _.initials.viewIndex[j]) {
+                    $(this).removeClass('eclipse-active eclipse-active-'+(j + 1));
+                }
+            }
+            $(this).attr('style', $(this).data('originalStyling')).removeClass('eclipse-slides');
+        }).promise().done(function () {
+            _.$eclipse.removeClass('eclipse-wrapper');
+            _.$slider.off(_.events.clickstart).attr('style', _.$slider.data('originalStyling'));
+            _.removeElements();
+            _.emptyInitials();
+            if (callback) {callback();}
+        });
+    }
+
     Eclipse.prototype.setGlobalClass = function () {
         var _ = this;
 
@@ -797,8 +824,9 @@
     Eclipse.prototype.reinit = function () {
         var _ = this;
 
-        _.resetInit();
-        _.init();
+        _.destroy(function () {
+            _.init();
+        });
     }
 
     Eclipse.prototype.init = function () {

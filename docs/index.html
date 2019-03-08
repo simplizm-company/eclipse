@@ -437,6 +437,31 @@ td, th {vertical-align: middle;}
                         </script>
                     </div>
                 </section>
+                <section class="demo">
+                    <div class="desc">
+                        <h3 class="tit">9. destroy</h3>
+                    </div>
+                    <button id="destroy">destroy</button>
+                    <button id="init">init</button>
+                    <div id="eclipse9">
+                        <div class="eclipse-slider">
+                            <div>first</div>
+                            <div>2</div>
+                            <div>3</div>
+                            <div>4</div>
+                            <div>last</div>
+                        </div>
+                        <script>
+                            var $eclipse9 = $('#eclipse9').eclipse();
+                            $('#destroy').on('click', function () {
+                                $eclipse9.eclipse('destroy');
+                            });
+                            $('#init').on('click', function () {
+                                $eclipse9.eclipse('init');
+                            });
+                        </script>
+                    </div>
+                </section>
             </section>
         </div>
         <script>
