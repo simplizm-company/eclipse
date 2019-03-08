@@ -702,9 +702,10 @@
         var load = 0;
 
         if (max) {
-            _.$slider.find('img').one('load', function () {
-                load++;
-                if (this.complete && load == max) {
+            _.$slider.find('img').each(function (i) {
+                // console.log(this.complete, this.onerror);
+                if (this.complete && i == max - 1) {
+                    console.log('load2', this.onerror);
                     callback();
                 }
             });
