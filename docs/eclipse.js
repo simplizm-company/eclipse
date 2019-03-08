@@ -372,6 +372,16 @@
         })
     }
 
+    Eclipse.prototype.setRemoveClass = function (target) {
+        
+        target.isView = undefined;
+        for (var j = 0; j < _.initials.viewIndex.length; j++) {
+            if (target.index === _.initials.viewIndex[j]) {
+                target.isView = _.initials.viewIndex.indexOf(_.initials.viewIndex[j]);
+            }
+        }
+    }
+
     Eclipse.prototype.buildControls = function () {
         var _ = this;
 
@@ -454,7 +464,9 @@
 
     Eclipse.prototype.setSlidesEach = function () {
         var _ = this;
-        
+
+        _.initials.computedIndexArray = [];
+        _.initials.viewIndex = [];
         _.initials.sliderWidth = _.$slider.width();
         var indexTemp = [];
         var vi = _.options.startIndex;
@@ -684,28 +696,48 @@
     Eclipse.prototype.resizeSlider = function () {
         var _ = this;
 
+        var rtime;
+        var timeout = false;
+        var delta = 200;
+
         $(window).off(_.events.resize).on(_.events.resize, function () {
-            if (!_.initials.resizeFlag) {
-                setTimeout(function () {
-                    _.initials.resizeFlag = false;
-                    _.setSlidesEach();
-                }, 100);
+            rtime = new Date();
+            if (timeout === false) {
+                timeout = true;
+                setTimeout(resizeend, delta);
             }
-            _.initials.resizeFlag = true;
         });
+
+        function resizeend () {
+            if (new Date() - rtime < delta) {
+                setTimeout(resizeend, delta);
+            } else {
+                timeout = false;
+                _.initials.sliderWidth = _.$slider.width();
+                _.$slides.each(function () {
+                    this.width = (_.initials.sliderWidth - (_.options.slidesToShow - 1) * _.options.margin) / _.options.slidesToShow;
+                    this.left = this.index == _.options.startIndex ? this.width * this.point : (this.width * this.point) + (this.point * _.options.margin);
+                    this.transform = 'translate3d(' + this.left + 'px, 0, 0)';
+                    $(this).css({'width': this.width}).css(_.autoPrefixer(0, 'none', this.transform));
+                }).promise().done(function () {
+                    _.$slides.each(function () {
+                        this.height = $(this).height();
+                    }).promise().done(function () {
+                        _.setSliderHeight();
+                    });
+                });
+            }
+        }
     }
 
     Eclipse.prototype.sliderLoaded = function (callback) {
         var _ = this;
 
         var max = _.$slider.find('img').length;
-        var load = 0;
 
         if (max) {
             _.$slider.find('img').each(function (i) {
-                // console.log(this.complete, this.onerror);
                 if (this.complete && i == max - 1) {
-                    console.log('load2', this.onerror);
                     callback();
                 }
             });
