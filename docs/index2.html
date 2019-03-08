@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135683881-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-135683881-1');
+    </script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=1100px, user-scalable=no">
+    <meta name="description" content="jquery slider, eclipse slider, 슬라이더, 제이쿼리 슬라이더, 이클립스, eclipse">
+    <meta name="keywords" content="jquery, slider, plugin, eclipse, 슬라이더, 제이쿼리, 이클립스">
+    <meta name="author" content="simplizm">
+    <meta property="og:title" content="eclipse slider">
+    <meta property="og:description" content="jquery slider plugin eclipse">
+    <title>eclipse slider</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="eclipse.css"></link>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script src="eclipse.js"></script>
+</head>
+<body>
+<style>
+@font-face {
+    font-family: NanumGothic;
+    font-style: normal;
+    font-weight: 400;
+    src: url("./fonts/NanumGothic-400.woff") format("woff");
+}
+
+@font-face {
+    font-family: NanumGothic;
+    font-style: normal;
+    font-weight: 700;
+    src: url("./fonts/NanumGothic-700.woff") format("woff");
+}
+
+@font-face {
+    font-family: NanumSquare;
+    font-style: normal;
+    font-weight: 400;
+    src: url("./fonts/NanumSquare-400.woff") format("woff");
+}
+
+@font-face {
+    font-family: NanumSquare;
+    font-style: normal;
+    font-weight: 700;
+    src: url("./fonts/NanumSquare-700.woff") format("woff");
+}
+
+* {box-sizing: border-box; margin: 0; padding: 0; font-family: inherit; font-style: normal; font-weight: inherit; font-size: inherit; line-height: inherit; text-decoration: inherit; color: inherit; vertical-align: top; outline: none;}
+
+html {width: 100%; height: 100%; -ms-touch-action: manipulation; touch-action: manipulation;}
+body {width: 100%; height: 100%; font-family: NanumSquare; font-weight: 400; font-size: 17px; line-height: 1.5; color: #666666; -webkit-font-smoothing: antialiased; /*font-smoothing: antialiased;*/ -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 100%; -webkit-print-color-adjust: exact;}
+
+table {width: 100%; border-spacing: 0; table-layout: fixed;}
+
+td, th {vertical-align: middle;}
+
+#outer {overflow: hidden; position: relative; width: 100%; min-height: 100vh; padding: 50px; background: #eeeeee;}
+
+#inner {max-width: 1100px; padding: 100px 100px; margin: 0 auto; background: #ffffff;}
+#inner h1 {margin: 0 0 100px; font-weight: 700; font-size: 40px; color: #000000;}
+#inner h2 {margin: 0 0 20px; font-weight: 700; font-size: 24px; color: #000000;}
+#inner .greeting {margin: 0 0 100px;}
+#inner .greeting .txt strong {font-weight: 400; color: #000000;}
+#inner .greeting .link {display: inline-block; margin: 10px 0 0; color: #1d86dc;}
+
+#inner .options {margin: 0 0 100px;}
+#inner .options table thead tr th {padding: 15px; color: #000000; text-align: center; background: #f7f7f7;}
+#inner .options table tbody tr td {padding: 15px; text-align: center; border-bottom: 1px solid #dddddd;}
+
+#inner .options {margin: 0 0 100px;}
+#inner .options table thead tr th {padding: 15px; color: #000000; text-align: center; background: #f7f7f7;}
+#inner .options table tbody tr td {padding: 15px; text-align: center; border-bottom: 1px solid #dddddd;}
+#inner .options table tbody tr td:nth-child(3) {text-align: left;}
+#inner .options table tbody tr td a {color: #569cd6;}
+
+#inner .methods {margin: 0 0 100px;}
+#inner .methods table thead tr th {padding: 15px; color: #000000; text-align: center; background: #f7f7f7;}
+#inner .methods table tbody tr td {padding: 15px; text-align: center; border-bottom: 1px solid #dddddd;}
+#inner .methods table tbody tr td a {color: #569cd6;}
+
+#inner .demowrap {margin: 0 0 100px;}
+#inner .demowrap .demo {width: 100%; margin: 0 auto 100px;}
+#inner .demowrap .demo:last-child {margin-bottom: 0;}
+#inner .demowrap .demo .desc {margin: 0 0 20px;}
+#inner .demowrap .demo .desc .tit {color: #000000;}
+#inner .demowrap .demo .desc .txt {margin: 10px 0 0;}
+#inner .demowrap .demo .source {margin: 30px 0 0; padding: 25px; border-radius: 15px; background: #1e1e1e; font-family: NanumGothic; font-size: 14px; line-height: 1.5; color: #ffffff; letter-spacing: 0.1em; word-break:break-all; white-space: pre-wrap;}
+#inner .demowrap .demo .source .hljs-tag {color: #569cd6;}
+#inner .demowrap .demo .source .hljs-attr {color: #9cdcfe;}
+#inner .demowrap .demo .source .hljs-string {color: #ce723b;}
+#inner .demowrap .demo .source .hljs-number {color: #b5cea8;}
+#inner .demowrap .demo .source .hljs-selector-id {color: #d7983d;}
+#inner .demowrap .demo .source .hljs-selector-class {color: #d7983d;}
+#inner .demowrap .demo .source .hljs-selector-tag {color: #d7983d;}
+#inner .demowrap .demo .source .hljs-attribute {color: #9cdcfe;}
+#inner .demowrap .demo .source .hljs-keyword {color: #569cd6;}
+#inner .demowrap .demo .source .hljs-literal {color: #569cd6;}
+#inner .demowrap .demo .source .hljs-subst {color: #569cd6;}
+</style>
+    <div id="outer">
+        <div id="inner">
+            <h1>jQuery slider plugin - Eclipse</h1>
+            <section class="greeting">
+                <h2>1. 개요</h2>
+                <p class="txt">이미지 및 컨텐츠 롤링 기능이 있는 <strong>jquery 슬라이더 플러그인</strong> 입니다.<br>
+                오늘도 영문사이트 보시느라 눈이 아플 한국의 웹퍼블리셔 및 웹개발자들을 위해 만들어 봤습니다.<br>
+                사용자피드백을 통해 지속적으로 업데이트 할 예정입니다.</p>
+                <a href="https://github.com/simplizm-company/eclipse" class="link">소스 다운로드 (github)</a>
+            </section>
+            <section class="options">
+                <h2>2. 옵션표</h2>
+                <table>
+                    <colgroup>
+                        <col style="width: 15%;">
+                        <col style="width: 15%;">
+                        <col style="width: auto;">
+                        <col style="width: 15%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>옵션명</th>
+                            <th>옵션값 타입</th>
+                            <th>옵션 설명</th>
+                            <th>기본값</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>startIndex</td>
+                            <td>number</td>
+                            <td>슬라이더 시작 인덱스 값 지정</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>arrow</td>
+                            <td>boolean</td>
+                            <td>화살표 네비게이션의 사용 여부</td>
+                            <td>true</td>
+                        </tr>
+                        <tr>
+                            <td>pager</td>
+                            <td>boolean</td>
+                            <td>단추 네비게이션의 사용 여부</td>
+                            <td>true</td>
+                        </tr>
+                        <tr>
+                            <td>slidesToShow</td>
+                            <td>number</td>
+                            <td>한번에 보여질 슬라이드의 갯수</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>slidesToMove</td>
+                            <td>number</td>
+                            <td>한번에 이동될 슬라이드의 갯수</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>speed</td>
+                            <td>number</td>
+                            <td>슬라이드 전환 속도<br>(단위 : ms)</td>
+                            <td>500</td>
+                        </tr>
+                        <tr>
+                            <td>margin</td>
+                            <td>number</td>
+                            <td>슬라이드간 간격<br>(단위 : px)</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>friction</td>
+                            <td>number</td>
+                            <td>마우스드래그 및 터치무브로 슬라이드 전환시 감도 조절<br>(단위 : px)</td>
+                            <td>200</td>
+                        </tr>
+                        <tr>
+                            <td>countIndex</td>
+                            <td>number</td>
+                            <td>첫번째 활성 슬라이드의 인덱스값을 조절</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>autoplay</td>
+                            <td>boolean</td>
+                            <td>오토플레이 사용 여부</td>
+                            <td>false</td>
+                        </tr>
+                        <tr>
+                            <td>interval</td>
+                            <td>number</td>
+                            <td>오토플레이 전환 간격<br>(단위 : ms)</td>
+                            <td>3000</td>
+                        </tr>
+                        <tr>
+                            <td>autoControl</td>
+                            <td>boolean</td>
+                            <td>자동롤링 컨트롤러 사용 여부</td>
+                            <td>false</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="methods">
+                <h2>3. 메소드 (준비중입니다)</h2>
+                <table>
+                    <colgroup>
+                        <col style="width: 20%;">
+                        <col style="width: auto;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>메소드</th>
+                            <th>메소드 설명</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="demowrap">
+                <h2>4. 데모 및 소스</h2>
+                <section class="demo">
+                    <div class="desc">
+                        <h3 class="tit">1. 기본 슬라이더</h3>
+                    </div>
+                    <div id="eclipse1">
+                        <style>
+                            #eclipse1 .eclipse-slider .left {width: 50%; float: left; background: red;}
+                            #eclipse1 .eclipse-slider .right {width: 50%; float: right; background: blue;}
+                        </style>
+                        <div class="eclipse-slider">
+                            <div>
+                                <div class="left">left</div>
+                                <div class="right">right</div>
+                            </div>
+                            <div>2</div>
+                            <div>3</div>
+                            <div>4</div>
+                            <div>last</div>
+                        </div>
+                        <script>
+                            $('#eclipse1').eclipse();
+                        </script>
+                    </div>
+                </section>
+            </section>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    url: 'index2.html',
+                    timeout: 10000,
+                    dataType: 'html',
+                    success: function (data) {
+                        $(data).find('section.demo').each(function (i) {
+                            $(this).children('.desc').remove();
+                            var code = $(this).html();
+                            var $pre = $('<pre class="source"><code></code></pre>').appendTo($('section.demo').eq(i)).children('code');
+
+                            code = code.replace(/</gi, '&lt;').replace(/>/gi, '&gt;');
+                            code = code.substring(code.indexOf('\n') + 1);
+                            code = code.substring(code.lastIndexOf('\n') + 1, -1);
+                            var between = code.split('\n')[0].split(' ').length;
+                            var newCode = [];
+
+                            code.split('\n').forEach(function (self) {
+                                self = self.replace(self.substring(0, between - 1), '');
+                                newCode += '\n' + self;
+                            });
+
+                            newCode = newCode.substring(newCode.indexOf('\n') + 2);
+                            newCode = newCode.substring(newCode.lastIndexOf('\n') + 1, -1);
+
+                            $pre.html(newCode);
+                        }).promise().done(function () {
+                            $('pre > code').each(function () {
+                                hljs.highlightBlock(this);
+                            })
+                        });
+                    }
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
