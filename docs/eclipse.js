@@ -746,20 +746,39 @@
     Eclipse.prototype.sliderLoaded = function (callback) {
         var _ = this;
 
-        var max = _.$slider.find('img').length;
+        var len = _.$slider.find('img').length;
+        var max = 0;
         var idx = 0;
 
-        if (max) {
-            _.$slider.find('img').one({
-                'load': function () {
-                    if (++idx === max) {
-                        callback();
-                    }
-                },
-                'error': function () {
-                    if (++idx === max) {
-                        callback();
-                    }
+        if (len) {
+            _.$slider.find('img').each(function () {
+                if (!this.eclipseLoad) {
+                    max++;
+                }
+            }).promise().done(function () {
+                if (max) {
+                    _.$slider.find('img').one({
+                        'load': function () {
+                            if (++idx === max) {
+                                _.$slider.find('img').each(function () {
+                                    this.eclipseLoad = true;
+                                }).promise().done(function () {
+                                    callback();
+                                });
+                            }
+                        },
+                        'error': function () {
+                            if (++idx === max) {
+                                _.$slider.find('img').each(function () {
+                                    this.eclipseLoad = true;
+                                }).promise().done(function () {
+                                    callback();
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    callback();
                 }
             });
         } else {
@@ -779,23 +798,7 @@
         var _ = this;
 
         _.resetInit();
-
-        _.setGlobalClass();
-        _.setSlidesCSS();
-        _.setInitials();
-
-        _.loadedInit();
-    }
-
-    Eclipse.prototype.loadedInit = function () {
-        var _ = this;
-
-        _.setSlidesEach();
-        _.setSliderHeight();
-        _.buildControls();
-        _.setEvents();
-        _.setAutoplay();
-        _.resizeSlider();
+        _.init();
     }
 
     Eclipse.prototype.init = function () {
@@ -806,7 +809,12 @@
         _.setInitials();
 
         _.sliderLoaded(function () {
-            _.loadedInit();
+            _.setSlidesEach();
+            _.setSliderHeight();
+            _.buildControls();
+            _.setEvents();
+            _.setAutoplay();
+            _.resizeSlider();
         });
     }
 
