@@ -705,7 +705,7 @@
 
         var rtime;
         var timeout = false;
-        var delta = 200;
+        var delta = 50;
 
         sizeReinit();
 
