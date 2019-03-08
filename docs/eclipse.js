@@ -734,11 +734,21 @@
         var _ = this;
 
         var max = _.$slider.find('img').length;
+        var idx = 0;
 
         if (max) {
-            _.$slider.find('img').each(function (i) {
-                if (this.complete && i == max - 1) {
-                    callback();
+            _.$slider.find('img').one({
+                'load': function () {
+                    console.log('load', idx++);
+                    if (idx === max) {
+                        callback();
+                    }
+                },
+                'error': function () {
+                    console.log('error', idx++);
+                    if (idx === max) {
+                        callback();
+                    }
                 }
             });
         } else {
