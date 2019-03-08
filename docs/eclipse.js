@@ -739,14 +739,12 @@
         if (max) {
             _.$slider.find('img').one({
                 'load': function () {
-                    console.log('load', idx++);
-                    if (idx === max) {
+                    if (++idx === max) {
                         callback();
                     }
                 },
                 'error': function () {
-                    console.log('error', idx++);
-                    if (idx === max) {
+                    if (++idx === max) {
                         callback();
                     }
                 }
