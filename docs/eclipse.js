@@ -117,11 +117,11 @@
             }
 
             _.events = {
-                click: `click.eclipse${_.initials.fnidx}`,
-                clickstart: `clickstart.eclipse${_.initials.fnidx}`,
-                clickmove: `clickmove.eclipse${_.initials.fnidx}`,
-                clickend: `clickend.eclipse${_.initials.fnidx}`,
-                resize: `resize.eclipse${_.initials.fnidx}`
+                click: 'click.eclipse'+_.initials.fnidx,
+                clickstart: 'clickstart.eclipse'+_.initials.fnidx,
+                clickmove: 'clickmove.eclipse'+_.initials.fnidx,
+                clickend: 'clickend.eclipse'+_.initials.fnidx,
+                resize: 'resize.eclipse'+_.initials.fnidx
             }
 
             _.$eclipse = $(element);
@@ -157,7 +157,7 @@
                 for (var j = 0; j < _.initials.viewIndex.length; j++) {
                     if (this.index === _.initials.viewIndex[j]) {
                         this.isView = _.initials.viewIndex.indexOf(_.initials.viewIndex[j]);
-                        $(this).removeClass(`eclipse-active eclipse-active-${j + 1}`);
+                        $(this).removeClass('eclipse-active eclipse-active-'+(j + 1));
                     }
                 }
                 this.point = this.isView !== undefined ? this.isView : i - _.initials.viewIndex[0];
@@ -367,7 +367,7 @@
         $target.each(function (i) {
             for (var j = 0; j < _.initials.viewIndex.length; j++) {
                 if (this.index === _.initials.viewIndex[j]) {
-                    $(this).addClass(`eclipse-active eclipse-active-${j + 1}`);
+                    $(this).addClass('eclipse-active eclipse-active-'+(j + 1));
                 }
             }
         })
@@ -388,8 +388,8 @@
 
         if (_.initials.slidesCount > _.options.slidesToShow) {
             if (_.options.arrow === true) {
-                var prev = $(`<button>prev</button>`).addClass(`eclipse-arrow eclipse-prev`),
-                    next = $(`<button>next</button>`).addClass(`eclipse-arrow eclipse-next`);
+                var prev = $('<button>prev</button>').addClass('eclipse-arrow eclipse-prev'),
+                    next = $('<button>next</button>').addClass('eclipse-arrow eclipse-next');
                 _.$arrowPrev = prev.appendTo(_.$eclipse);
                 _.$arrowNext = next.appendTo(_.$eclipse);
             }
@@ -404,17 +404,17 @@
                 } else {
                     _.initials.pagerComputedLength = Math.ceil((_.initials.slidesCount - _.options.slidesToShow) / _.options.slidesToMove) + 1;
                 }
-                var paging = $('<div />').addClass(`eclipse-paging`);
+                var paging = $('<div />').addClass('eclipse-paging');
                 for (var i = 1; i <= _.initials.pagerComputedLength; i++) {
-                    paging.append($(`<button>${i}</button>`).addClass(`eclipse-paging-button`));
+                    paging.append($('<button>'+i+'</button>').addClass('eclipse-paging-button'));
                 }
                 _.$paging = paging.appendTo(_.$controls);
                 _.$pagingButton = _.$paging.children();
             }
 
             if (_.options.autoControl === true) {
-                var play = $(`<button>prev</button>`).addClass(`eclipse-auto-play`),
-                    stop = $(`<button>next</button>`).addClass(`eclipse-auto-stop`);
+                var play = $('<button>prev</button>').addClass('eclipse-auto-play'),
+                    stop = $('<button>next</button>').addClass('eclipse-auto-stop');
                 _.$autoPlay = play.appendTo(_.$controls);
                 _.$autoStop = stop.appendTo(_.$controls);
 
@@ -795,7 +795,7 @@
 
         _.$eclipse.addClass('eclipse-wrapper')
         _.$slider = _.$eclipse.find('.eclipse-slider');
-        _.$slides = _.$slider.children().addClass(`eclipse-slides`);
+        _.$slides = _.$slider.children().addClass('eclipse-slides');
     }
 
     Eclipse.prototype.reinit = function () {
