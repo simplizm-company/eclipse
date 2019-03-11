@@ -474,6 +474,10 @@ td, th {vertical-align: middle;}
                         <h4 class="tit">10. ex</h4>
                     </div>
                     <div id="eclipse10_1">
+                        <style>
+                            #eclipse10_1 .eclipse-slides {height: auto; line-height: 1; background: none;}
+                            #eclipse10_1 .eclipse-slides img {width: 100%;}
+                        </style>
                         <div class="eclipse-slider">
                             <div><img src="images/sample1.gif" alt=""></div>
                             <div><img src="images/sample2.gif" alt=""></div>
@@ -488,12 +492,15 @@ td, th {vertical-align: middle;}
                         </div>
                         <script>
                             $('#eclipse10_1').eclipse({
-                                slidesToMove: 5,
-                                slidesToShow: 5
+                                slidesToMove: 1,
+                                slidesToShow: 3
                             });
                         </script>
                     </div>
                     <div id="eclipse10_2">
+                        <style>
+                            #eclipse10_2 .eclipse-slides {height: auto; line-height: 1; background: none;}
+                        </style>
                         <div class="eclipse-slider">
                             <div><img src="images/sample1.gif" alt=""></div>
                             <div><img src="images/sample2.gif" alt=""></div>
@@ -509,7 +516,8 @@ td, th {vertical-align: middle;}
                         <script>
                             $('#eclipse10_2').eclipse({
                                 slidesToMove: 5,
-                                slidesToShow: 5
+                                slidesToShow: 5,
+                                margin: 20
                             });
                         </script>
                     </div>
