@@ -475,21 +475,22 @@ td, th {vertical-align: middle;}
                     </div>
                     <div id="eclipse10_1">
                         <style>
-                            #eclipse10_1 .eclipse-slides {height: auto; line-height: 1; background: none; opacity: 0.3;}
+                            #eclipse10_1 {padding: 0 0 60px;}
+                            #eclipse10_1 .eclipse-slides {opacity: 0.3;}
                             #eclipse10_1 .eclipse-active-2 {opacity: 1;}
                             #eclipse10_1 .eclipse-slides img {width: 100%;}
                         </style>
                         <div class="eclipse-slider">
-                            <div><img src="images/sample1.gif" alt=""></div>
-                            <div><img src="images/sample2.gif" alt=""></div>
-                            <div><img src="images/sample3.gif" alt=""></div>
-                            <div><img src="images/sample4.gif" alt=""></div>
-                            <div><img src="images/sample5.gif" alt=""></div>
-                            <div><img src="images/sample1.gif" alt=""></div>
-                            <div><img src="images/sample2.gif" alt=""></div>
-                            <div><img src="images/sample3.gif" alt=""></div>
-                            <div><img src="images/sample4.gif" alt=""></div>
-                            <div><img src="images/sample5.gif" alt=""></div>
+                            <div>1</div>
+                            <div>2</div>
+                            <div>3</div>
+                            <div>4</div>
+                            <div>5</div>
+                            <div>6</div>
+                            <div>7</div>
+                            <div>8</div>
+                            <div>9</div>
+                            <div>10</div>
                         </div>
                         <script>
                             var $eclipse10_1 = $('#eclipse10_1').eclipse({
@@ -502,25 +503,26 @@ td, th {vertical-align: middle;}
                     <div id="eclipse10_2">
                         <style>
                             #eclipse10_2 {margin: 50px 0 0;}
-                            #eclipse10_2 .eclipse-slides {height: auto; line-height: 1; background: none; cursor: pointer;}
+                            #eclipse10_2 .eclipse-slides {height: 100px; line-height: 100px; cursor: pointer;}
                         </style>
                         <div class="eclipse-slider">
-                            <div onclick="$eclipse10_1.eclipse('goSlides', 0)"><img src="images/sample1.gif" alt=""></div>
-                            <div onclick="$eclipse10_1.eclipse('goSlides', 1)"><img src="images/sample2.gif" alt=""></div>
-                            <div onclick="$eclipse10_1.eclipse('goSlides', 2)"><img src="images/sample3.gif" alt=""></div>
-                            <div onclick="$eclipse10_1.eclipse('goSlides', 3)"><img src="images/sample4.gif" alt=""></div>
-                            <div onclick="$eclipse10_1.eclipse('goSlides', 4)"><img src="images/sample5.gif" alt=""></div>
-                            <div onclick="$eclipse10_1.eclipse('goSlides', 5)"><img src="images/sample1.gif" alt=""></div>
-                            <div onclick="$eclipse10_1.eclipse('goSlides', 6)"><img src="images/sample2.gif" alt=""></div>
-                            <div onclick="$eclipse10_1.eclipse('goSlides', 7)"><img src="images/sample3.gif" alt=""></div>
-                            <div onclick="$eclipse10_1.eclipse('goSlides', 8)"><img src="images/sample4.gif" alt=""></div>
-                            <div onclick="$eclipse10_1.eclipse('goSlides', 9)"><img src="images/sample5.gif" alt=""></div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 0)">1</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 1)">2</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 2)">3</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 3)">4</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 4)">5</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 5)">6</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 6)">7</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 7)">8</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 8)">9</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 9)">10</div>
                         </div>
                         <script>
                             $('#eclipse10_2').eclipse({
                                 slidesToMove: 5,
                                 slidesToShow: 5,
-                                margin: 20
+                                margin: 20,
+                                pager: false
                             });
                         </script>
                     </div>
