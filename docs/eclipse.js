@@ -86,7 +86,8 @@
                 autoplay: false, // 자동 롤링
                 interval: 3000, // 자동 롤링 시간 간격
                 autoControl: false, // 자동롤링 controler 사용 여부
-                adaptiveHeight: false
+                adaptiveHeight: false,
+                connected: null
             }
 
             _.options = $.extend({}, _.defaults, settings);
@@ -206,11 +207,22 @@
         }
     }
 
+    Eclipse.prototype.setConnected = function (index) {
+        var _ = this;
+        
+        if (_.options.connected) {
+            _.options.connected.eclipse('goSlides', index);
+            _.options.connected.eclipse('connedtedActiveClass', index);
+        }
+    }
+
     Eclipse.prototype.afterationAction = function () {
         var _ = this;
 
         _.setPagerClass();
         _.setSliderHeight();
+        _.setConnected(_.initials.viewIndex[0]);
+
 
         setTimeout(function () {
             _.initials.playActionFlag = false;
@@ -230,6 +242,12 @@
                 $(this).stop().css(_.autoPrefixer(0, 'none', this.transform));
             });
         }, _.options.speed);
+    }
+
+    Eclipse.prototype.connedtedActiveClass = function (index) {
+        var _ = this;
+
+        _.$slides.eq(index).addClass('eclipse-connedted-active').siblings().removeClass('eclipse-connedted-active');
     }
 
     Eclipse.prototype.removeClone = function (target) {
@@ -661,9 +679,16 @@
     Eclipse.prototype.goSlides = function (index) {
         var _ = this;
 
-        console.log(index);
+        var nextIndex = 0;
+        for (var i = 1; i < _.initials.arrayCheckPoint.length; i++) {
+            if ((index < _.initials.arrayCheckPoint[i] && index >= _.initials.arrayCheckPoint[i - 1])) {
+                nextIndex = i - 1;
+            } else if (index >= _.initials.arrayCheckPoint[i]) {
+                nextIndex = i;
+            }
+        }
         _.initials.thisPageIndex = index;
-        _.goToSlides(_.initials.arrayCheckPoint[index]);
+        _.goToSlides(_.initials.arrayCheckPoint[nextIndex]);
     }
 
     Eclipse.prototype.setAutoplay = function () {
@@ -854,6 +879,7 @@
             _.setEvents();
             _.setAutoplay();
             _.resizeSlider();
+            _.setConnected(_.initials.viewIndex[0]);
         });
     }
 

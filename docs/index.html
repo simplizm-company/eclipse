@@ -131,6 +131,7 @@ td, th {vertical-align: middle;}
 #inner .demowrap .demo .source .hljs-keyword {color: #569cd6;}
 #inner .demowrap .demo .source .hljs-literal {color: #569cd6;}
 #inner .demowrap .demo .source .hljs-subst {color: #569cd6;}
+#inner .demowrap .demo .source .hljs-comment {color: #6a9955;}
 </style>
     <div id="outer">
         <div id="inner">
@@ -491,19 +492,14 @@ td, th {vertical-align: middle;}
                             <div>8</div>
                             <div>9</div>
                             <div>10</div>
+                            <div>11</div>
+                            <div>12</div>
                         </div>
-                        <script>
-                            var $eclipse10_1 = $('#eclipse10_1').eclipse({
-                                margin: 20,
-                                slidesToShow: 3,
-                                countIndex: 1
-                            });
-                        </script>
                     </div>
                     <div id="eclipse10_2">
                         <style>
-                            #eclipse10_2 {margin: 50px 0 0;}
                             #eclipse10_2 .eclipse-slides {height: 100px; line-height: 100px; cursor: pointer;}
+                            #eclipse10_2 .eclipse-connedted-active:after {display: block; content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; border: 5px solid #000;}
                         </style>
                         <div class="eclipse-slider">
                             <div onclick="$eclipse10_1.eclipse('goSlides', 0)">1</div>
@@ -516,13 +512,24 @@ td, th {vertical-align: middle;}
                             <div onclick="$eclipse10_1.eclipse('goSlides', 7)">8</div>
                             <div onclick="$eclipse10_1.eclipse('goSlides', 8)">9</div>
                             <div onclick="$eclipse10_1.eclipse('goSlides', 9)">10</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 10)">11</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 11)">12</div>
                         </div>
                         <script>
-                            $('#eclipse10_2').eclipse({
+                            // pager를 먼저 실행
+                            var $eclipse10_2 = $('#eclipse10_2').eclipse({
                                 slidesToMove: 5,
                                 slidesToShow: 5,
                                 margin: 20,
                                 pager: false
+                            });
+
+                            // connedted를 통해 pager eclipse를 연결
+                            var $eclipse10_1 = $('#eclipse10_1').eclipse({
+                                margin: 10,
+                                slidesToShow: 3,
+                                countIndex: 1,
+                                connected: $eclipse10_2
                             });
                         </script>
                     </div>
