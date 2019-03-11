@@ -212,7 +212,7 @@
         
         if (_.options.connected) {
             _.options.connected.eclipse('goSlides', index);
-            _.options.connected.eclipse('connedtedActiveClass', index);
+            _.options.connected.eclipse('connectedActiveClass', index);
         }
     }
 
@@ -244,10 +244,10 @@
         }, _.options.speed);
     }
 
-    Eclipse.prototype.connedtedActiveClass = function (index) {
+    Eclipse.prototype.connectedActiveClass = function (index) {
         var _ = this;
 
-        _.$slides.eq(index).addClass('eclipse-connedted-active').siblings().removeClass('eclipse-connedted-active');
+        _.$slides.eq(index).addClass('eclipse-connected-active').siblings().removeClass('eclipse-connected-active');
     }
 
     Eclipse.prototype.removeClone = function (target) {
