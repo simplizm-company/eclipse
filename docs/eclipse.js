@@ -336,6 +336,8 @@
         var _ = this;
         var thisIndex = _.initials.viewIndex[0];
 
+        _.initials.thisPageIndex = _.initials.arrayCheckPoint.indexOf(nextIndex);
+
         if (_.initials.viewIndex[0] !== nextIndex && !_.initials.playActionFlag) {
             _.preparationAction(function () {
                 var computedNextIndex = nextIndex;
@@ -661,7 +663,6 @@
 
         if (_.$pagingButton) {
             _.$pagingButton.on(_.events.click, function () {
-                _.initials.thisPageIndex = $(this).index();
                 _.goToSlides(_.initials.arrayCheckPoint[$(this).index()]);
             });
         }
@@ -687,7 +688,6 @@
                 nextIndex = i;
             }
         }
-        _.initials.thisPageIndex = index;
         _.goToSlides(_.initials.arrayCheckPoint[nextIndex]);
     }
 
