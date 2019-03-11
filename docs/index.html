@@ -475,7 +475,8 @@ td, th {vertical-align: middle;}
                     </div>
                     <div id="eclipse10_1">
                         <style>
-                            #eclipse10_1 .eclipse-slides {height: auto; line-height: 1; background: none;}
+                            #eclipse10_1 .eclipse-slides {height: auto; line-height: 1; background: none; opacity: 0.3;}
+                            #eclipse10_1 .eclipse-active-2 {opacity: 1;}
                             #eclipse10_1 .eclipse-slides img {width: 100%;}
                         </style>
                         <div class="eclipse-slider">
@@ -491,27 +492,29 @@ td, th {vertical-align: middle;}
                             <div><img src="images/sample5.gif" alt=""></div>
                         </div>
                         <script>
-                            $('#eclipse10_1').eclipse({
-                                slidesToMove: 1,
-                                slidesToShow: 3
+                            var $eclipse10_1 = $('#eclipse10_1').eclipse({
+                                margin: 20,
+                                slidesToShow: 3,
+                                countIndex: 1
                             });
                         </script>
                     </div>
                     <div id="eclipse10_2">
                         <style>
-                            #eclipse10_2 .eclipse-slides {height: auto; line-height: 1; background: none;}
+                            #eclipse10_2 {margin: 50px 0 0;}
+                            #eclipse10_2 .eclipse-slides {height: auto; line-height: 1; background: none; cursor: pointer;}
                         </style>
                         <div class="eclipse-slider">
-                            <div><img src="images/sample1.gif" alt=""></div>
-                            <div><img src="images/sample2.gif" alt=""></div>
-                            <div><img src="images/sample3.gif" alt=""></div>
-                            <div><img src="images/sample4.gif" alt=""></div>
-                            <div><img src="images/sample5.gif" alt=""></div>
-                            <div><img src="images/sample1.gif" alt=""></div>
-                            <div><img src="images/sample2.gif" alt=""></div>
-                            <div><img src="images/sample3.gif" alt=""></div>
-                            <div><img src="images/sample4.gif" alt=""></div>
-                            <div><img src="images/sample5.gif" alt=""></div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 0)"><img src="images/sample1.gif" alt=""></div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 1)"><img src="images/sample2.gif" alt=""></div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 2)"><img src="images/sample3.gif" alt=""></div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 3)"><img src="images/sample4.gif" alt=""></div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 4)"><img src="images/sample5.gif" alt=""></div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 5)"><img src="images/sample1.gif" alt=""></div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 6)"><img src="images/sample2.gif" alt=""></div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 7)"><img src="images/sample3.gif" alt=""></div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 8)"><img src="images/sample4.gif" alt=""></div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 9)"><img src="images/sample5.gif" alt=""></div>
                         </div>
                         <script>
                             $('#eclipse10_2').eclipse({

@@ -658,6 +658,14 @@
         }
     }
 
+    Eclipse.prototype.goSlides = function (index) {
+        var _ = this;
+
+        console.log(index);
+        _.initials.thisPageIndex = index;
+        _.goToSlides(_.initials.arrayCheckPoint[index]);
+    }
+
     Eclipse.prototype.setAutoplay = function () {
         var _ = this;
 
@@ -760,24 +768,27 @@
 
         if (len) {
             _.$slider.find('img').each(function () {
-                if (!this.eclipseLoad) {
+                if (!this.loaded) {
                     max++;
                 }
             }).promise().done(function () {
                 if (max) {
                     _.$slider.find('img').each(function () {
                         if (this.complete) {
+                            this.loaded = true;
                             if (++idx === max) {
                                 callback();
                             }
                         } else {
                             $(this).on({
                                 'load': function () {
+                                    this.loaded = true;
                                     if (++idx === max) {
                                         callback();
                                     }
                                 },
                                 'error': function () {
+                                    this.loaded = true;
                                     if (++idx === max) {
                                         callback();
                                     }
