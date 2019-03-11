@@ -131,6 +131,7 @@ td, th {vertical-align: middle;}
 #inner .demowrap .demo .source .hljs-keyword {color: #569cd6;}
 #inner .demowrap .demo .source .hljs-literal {color: #569cd6;}
 #inner .demowrap .demo .source .hljs-subst {color: #569cd6;}
+#inner .demowrap .demo .source .hljs-comment {color: #6a9955;}
 </style>
     <div id="outer">
         <div id="inner">
@@ -230,6 +231,12 @@ td, th {vertical-align: middle;}
                             <td>autoControl</td>
                             <td>boolean</td>
                             <td>자동롤링 컨트롤러 사용 여부</td>
+                            <td>false</td>
+                        </tr>
+                        <tr>
+                            <td>adaptiveHeight</td>
+                            <td>boolean</td>
+                            <td>slider높이값 반응 여부</td>
                             <td>false</td>
                         </tr>
                     </tbody>
@@ -459,6 +466,70 @@ td, th {vertical-align: middle;}
                             });
                             $('#init').on('click', function () {
                                 $eclipse9.eclipse('init');
+                            });
+                        </script>
+                    </div>
+                </section>
+                <section class="demo">
+                    <div class="desc">
+                        <h4 class="tit">10. ex</h4>
+                    </div>
+                    <div id="eclipse10_1">
+                        <style>
+                            #eclipse10_1 {padding: 0 0 60px;}
+                            #eclipse10_1 .eclipse-slides {opacity: 0.3;}
+                            #eclipse10_1 .eclipse-active-2 {opacity: 1;}
+                            #eclipse10_1 .eclipse-slides img {width: 100%;}
+                        </style>
+                        <div class="eclipse-slider">
+                            <div>1</div>
+                            <div>2</div>
+                            <div>3</div>
+                            <div>4</div>
+                            <div>5</div>
+                            <div>6</div>
+                            <div>7</div>
+                            <div>8</div>
+                            <div>9</div>
+                            <div>10</div>
+                            <div>11</div>
+                            <div>12</div>
+                        </div>
+                    </div>
+                    <div id="eclipse10_2">
+                        <style>
+                            #eclipse10_2 .eclipse-slides {height: 100px; line-height: 100px; cursor: pointer;}
+                            #eclipse10_2 .eclipse-connected-active:after {display: block; content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; border: 5px solid #000;}
+                        </style>
+                        <div class="eclipse-slider">
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 0)">1</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 1)">2</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 2)">3</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 3)">4</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 4)">5</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 5)">6</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 6)">7</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 7)">8</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 8)">9</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 9)">10</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 10)">11</div>
+                            <div onclick="$eclipse10_1.eclipse('goSlides', 11)">12</div>
+                        </div>
+                        <script>
+                            // pager를 먼저 실행
+                            var $eclipse10_2 = $('#eclipse10_2').eclipse({
+                                slidesToMove: 5,
+                                slidesToShow: 5,
+                                margin: 20,
+                                pager: false
+                            });
+
+                            // connedted를 통해 pager eclipse를 연결
+                            var $eclipse10_1 = $('#eclipse10_1').eclipse({
+                                margin: 10,
+                                slidesToShow: 3,
+                                countIndex: 1,
+                                connected: $eclipse10_2
                             });
                         </script>
                     </div>

@@ -86,7 +86,8 @@
                 autoplay: false, // 자동 롤링
                 interval: 3000, // 자동 롤링 시간 간격
                 autoControl: false, // 자동롤링 controler 사용 여부
-                adaptiveHeight: false
+                adaptiveHeight: false,
+                connected: null
             }
 
             _.options = $.extend({}, _.defaults, settings);
@@ -206,11 +207,22 @@
         }
     }
 
+    Eclipse.prototype.setConnected = function (index) {
+        var _ = this;
+        
+        if (_.options.connected) {
+            _.options.connected.eclipse('goSlides', index);
+            _.options.connected.eclipse('connectedActiveClass', index);
+        }
+    }
+
     Eclipse.prototype.afterationAction = function () {
         var _ = this;
 
         _.setPagerClass();
         _.setSliderHeight();
+        _.setConnected(_.initials.viewIndex[0]);
+
 
         setTimeout(function () {
             _.initials.playActionFlag = false;
@@ -230,6 +242,12 @@
                 $(this).stop().css(_.autoPrefixer(0, 'none', this.transform));
             });
         }, _.options.speed);
+    }
+
+    Eclipse.prototype.connectedActiveClass = function (index) {
+        var _ = this;
+
+        _.$slides.eq(index).addClass('eclipse-connected-active').siblings().removeClass('eclipse-connected-active');
     }
 
     Eclipse.prototype.removeClone = function (target) {
@@ -658,6 +676,21 @@
         }
     }
 
+    Eclipse.prototype.goSlides = function (index) {
+        var _ = this;
+
+        var nextIndex = 0;
+        for (var i = 1; i < _.initials.arrayCheckPoint.length; i++) {
+            if ((index < _.initials.arrayCheckPoint[i] && index >= _.initials.arrayCheckPoint[i - 1])) {
+                nextIndex = i - 1;
+            } else if (index >= _.initials.arrayCheckPoint[i]) {
+                nextIndex = i;
+            }
+        }
+        _.initials.thisPageIndex = index;
+        _.goToSlides(_.initials.arrayCheckPoint[nextIndex]);
+    }
+
     Eclipse.prototype.setAutoplay = function () {
         var _ = this;
 
@@ -760,31 +793,34 @@
 
         if (len) {
             _.$slider.find('img').each(function () {
-                if (!this.eclipseLoad) {
+                if (!this.loaded) {
                     max++;
                 }
             }).promise().done(function () {
                 if (max) {
-                    _.$slider.find('img').one({
-                        'load': function () {
+                    _.$slider.find('img').each(function () {
+                        if (this.complete) {
+                            this.loaded = true;
                             if (++idx === max) {
-                                _.$slider.find('img').each(function () {
-                                    this.eclipseLoad = true;
-                                }).promise().done(function () {
-                                    callback();
-                                });
+                                callback();
                             }
-                        },
-                        'error': function () {
-                            if (++idx === max) {
-                                _.$slider.find('img').each(function () {
-                                    this.eclipseLoad = true;
-                                }).promise().done(function () {
-                                    callback();
-                                });
-                            }
+                        } else {
+                            $(this).on({
+                                'load': function () {
+                                    this.loaded = true;
+                                    if (++idx === max) {
+                                        callback();
+                                    }
+                                },
+                                'error': function () {
+                                    this.loaded = true;
+                                    if (++idx === max) {
+                                        callback();
+                                    }
+                                }
+                            })
                         }
-                    });
+                    })
                 } else {
                     callback();
                 }
@@ -843,6 +879,7 @@
             _.setEvents();
             _.setAutoplay();
             _.resizeSlider();
+            _.setConnected(_.initials.viewIndex[0]);
         });
     }
 
