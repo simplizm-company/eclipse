@@ -765,8 +765,12 @@
                 }
             }).promise().done(function () {
                 if (max) {
+                    _.$slider.find('img').each(function () {
+                        console.dir(this);
+                    })
                     _.$slider.find('img').one({
                         'load': function () {
+                            console.log('load');
                             if (++idx === max) {
                                 _.$slider.find('img').each(function () {
                                     this.eclipseLoad = true;
@@ -776,6 +780,7 @@
                             }
                         },
                         'error': function () {
+                            console.log('error');
                             if (++idx === max) {
                                 _.$slider.find('img').each(function () {
                                     this.eclipseLoad = true;

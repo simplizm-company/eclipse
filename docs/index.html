@@ -232,6 +232,12 @@ td, th {vertical-align: middle;}
                             <td>자동롤링 컨트롤러 사용 여부</td>
                             <td>false</td>
                         </tr>
+                        <tr>
+                            <td>adaptiveHeight</td>
+                            <td>boolean</td>
+                            <td>slider높이값 반응 여부</td>
+                            <td>false</td>
+                        </tr>
                     </tbody>
                 </table>
             </section>
@@ -459,6 +465,51 @@ td, th {vertical-align: middle;}
                             });
                             $('#init').on('click', function () {
                                 $eclipse9.eclipse('init');
+                            });
+                        </script>
+                    </div>
+                </section>
+                <section class="demo">
+                    <div class="desc">
+                        <h4 class="tit">10. ex</h4>
+                    </div>
+                    <div id="eclipse10_1">
+                        <div class="eclipse-slider">
+                            <div><img src="images/sample1.gif" alt=""></div>
+                            <div><img src="images/sample2.gif" alt=""></div>
+                            <div><img src="images/sample3.gif" alt=""></div>
+                            <div><img src="images/sample4.gif" alt=""></div>
+                            <div><img src="images/sample5.gif" alt=""></div>
+                            <div><img src="images/sample1.gif" alt=""></div>
+                            <div><img src="images/sample2.gif" alt=""></div>
+                            <div><img src="images/sample3.gif" alt=""></div>
+                            <div><img src="images/sample4.gif" alt=""></div>
+                            <div><img src="images/sample5.gif" alt=""></div>
+                        </div>
+                        <script>
+                            $('#eclipse10_1').eclipse({
+                                slidesToMove: 5,
+                                slidesToShow: 5
+                            });
+                        </script>
+                    </div>
+                    <div id="eclipse10_2">
+                        <div class="eclipse-slider">
+                            <div><img src="images/sample1.gif" alt=""></div>
+                            <div><img src="images/sample2.gif" alt=""></div>
+                            <div><img src="images/sample3.gif" alt=""></div>
+                            <div><img src="images/sample4.gif" alt=""></div>
+                            <div><img src="images/sample5.gif" alt=""></div>
+                            <div><img src="images/sample1.gif" alt=""></div>
+                            <div><img src="images/sample2.gif" alt=""></div>
+                            <div><img src="images/sample3.gif" alt=""></div>
+                            <div><img src="images/sample4.gif" alt=""></div>
+                            <div><img src="images/sample5.gif" alt=""></div>
+                        </div>
+                        <script>
+                            $('#eclipse10_2').eclipse({
+                                slidesToMove: 5,
+                                slidesToShow: 5
                             });
                         </script>
                     </div>
