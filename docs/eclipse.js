@@ -5,6 +5,8 @@
  * Website: http://www.simplizm.com/
  */
 
+ // issue connected event error
+
 ;(function($){
     'use strict';
 
@@ -87,7 +89,8 @@
                 interval: 3000, // 자동 롤링 시간 간격
                 autoControl: false, // 자동롤링 controler 사용 여부
                 adaptiveHeight: false,
-                connected: null
+                connected: null,
+                connectedPager: false
             }
 
             _.options = $.extend({}, _.defaults, settings);
@@ -114,7 +117,8 @@
                 pagerComputedLength: 0,
                 autoplayInterval: null,
                 resizeFlag: false,
-                sliderHeight: 0
+                sliderHeight: 0,
+                computedNextIndex: 0
             }
 
             _.events = {
@@ -152,6 +156,7 @@
             _.preClone = [];
             _.$appClone = [];
             _.$preClone = [];
+            _.initials.computedNextIndex = 0;
 
             _.$slides.each(function (i) {
                 this.isView = undefined;
@@ -164,7 +169,7 @@
                 this.point = this.isView !== undefined ? this.isView : i - _.initials.viewIndex[0];
                 this.left = this.width * this.point + (_.options.margin * this.point);
                 this.transform = 'translate3d(' + this.left + 'px, 0, 0)';
-                $(this).stop().css(_.autoPrefixer(0, 'none', this.transform));
+                $(this).stop().css(_.autoPrefixer('none', this.transform));
                 if (maxPoint < this.point) {
                     maxPoint = this.point;
                     maxIndex = i;
@@ -185,7 +190,7 @@
                     self.point = _.$slides.eq(minIndex)[0].point - (j + 1);
                     self.left = self.width * self.point + (_.options.margin * self.point);
                     self.transform = 'translate3d(' + self.left + 'px, 0, 0)';
-                    $(self).stop().css(_.autoPrefixer(0, 'none', self.transform));
+                    $(self).stop().css(_.autoPrefixer('none', self.transform));
                     _.$preClone.push(self);
                 }
                 for (var j = 0; j < _.appClone.length; j++) {
@@ -195,7 +200,7 @@
                     self.point = _.$slides.eq(maxIndex)[0].point + (j + 1);
                     self.left = self.width * self.point + (_.options.margin * self.point);
                     self.transform = 'translate3d(' + self.left + 'px, 0, 0)';
-                    $(self).stop().css(_.autoPrefixer(0, 'none', self.transform));
+                    $(self).stop().css(_.autoPrefixer('none', self.transform));
                     _.$appClone.push(self);
                 }
                 if (callback) {
@@ -211,10 +216,10 @@
         var _ = this;
         
         if (_.options.connected) {
-            var target = $(_.options.connected).eclipse('getEclipse');
-            target.options.connectedIndex = index;
-            target.$eclipse.eclipse('goSlides', index);
-            target.$eclipse.eclipse('connectedActiveClass', index);
+            var __ = $(_.options.connected).eclipse('getEclipse');
+
+            __.$eclipse.eclipse('goToSlides', __.initials.arrayCheckPoint[__.indexToPage(index)]);
+            __.$eclipse.eclipse('connectedActiveClass', index + __.options.countIndex);
         }
     }
 
@@ -241,7 +246,7 @@
                 this.point = this.isView !== undefined ? this.isView : i - _.initials.viewIndex[0];
                 this.left = this.width * this.point + (_.options.margin * this.point);
                 this.transform = 'translate3d(' + this.left + 'px, 0, 0)';
-                $(this).stop().css(_.autoPrefixer(0, 'none', this.transform));
+                $(this).stop().css(_.autoPrefixer('none', this.transform));
             });
         }, _.options.speed);
     }
@@ -249,7 +254,7 @@
     Eclipse.prototype.connectedActiveClass = function (index) {
         var _ = this;
 
-        _.$slides.eq(index + _.options.countIndex).addClass('eclipse-connected-active').siblings().removeClass('eclipse-connected-active');
+        _.$slides.eq(index).addClass('eclipse-connected-active').siblings().removeClass('eclipse-connected-active');
     }
 
     Eclipse.prototype.removeClone = function (target) {
@@ -262,113 +267,112 @@
         });
     }
 
-    Eclipse.prototype.goToSlidesPrevOrNext = function (nextIndex) {
+    Eclipse.prototype.slidesMotion = function (target, index) {
         var _ = this;
 
-        var computedNextIndex = 0;
+        target.point -= index;
+        target.left = target.width * target.point + (_.options.margin * target.point);
+        target.transform = 'translate3d(' + target.left + 'px, 0, 0)';
+        $(target).stop().css(_.autoPrefixer(_.initials.transition, target.transform));
+    }
 
-        if (nextIndex == 'next') {
-            _.initials.thisPageIndex++;
-            _.initials.thisPageIndex = _.initials.thisPageIndex !== _.initials.arrayCheckPoint.length ? _.initials.thisPageIndex : 0;
+    Eclipse.prototype.slidesMoveEach = function (target, callback) {
+        var _ = this;
 
-            if (_.options.slidesToMove !== 1) {
-                if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 1) {
-                    computedNextIndex = _.initials.arrayCheckPoint.slice(-1)[0] - _.initials.arrayCheckPoint.slice(-2)[0];
-                } else {
-                    if (_.initials.thisPageIndex == 0) {
-                        computedNextIndex = _.options.slidesToShow;
-                    } else {
-                        computedNextIndex = _.options.slidesToMove;
-                    }
-                }
-            } else {
-                computedNextIndex = 1;
-            }
-        }
-
-        if (nextIndex == 'prev') {
-            _.initials.thisPageIndex--;
-            _.initials.thisPageIndex = _.initials.thisPageIndex !== -1 ? _.initials.thisPageIndex : _.initials.arrayCheckPoint.length - 1;
-
-            if (_.options.slidesToMove !== 1) {
-                if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 1) {
-                    computedNextIndex = -_.options.slidesToShow;
-                } else {
-                    if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 2) {
-                        computedNextIndex = _.initials.arrayCheckPoint.slice(-2)[0] - _.initials.arrayCheckPoint.slice(-1)[0];
-                    } else {
-                        computedNextIndex = -_.options.slidesToMove;
-                    }
-                }
-            } else {
-                computedNextIndex = -1;
-            }
-        }
-
-        _.setViewIndex(computedNextIndex);
-
-        function motionScript (target) {
-            target.point -= computedNextIndex;
-            target.left = target.width * target.point + (_.options.margin * target.point);
-            target.transform = 'translate3d(' + target.left + 'px, 0, 0)';
-            $(target).stop().css(_.autoPrefixer(0, _.initials.transition, target.transform));
-        }
-
-        $(_.$appClone).each(function () {
-            motionScript(this);
+        $(target).each(function () {
+            _.slidesMotion(this, _.initials.computedNextIndex);
         }).promise().done(function () {
-            _.setActiveClass($(_.$appClone));
+            _.setActiveClass($(target));
+            if (callback) {callback();}
         });
+    }
 
-        $(_.$preClone).each(function () {
-            motionScript(this);
-        }).promise().done(function () {
-            _.setActiveClass($(_.$preClone));
+    Eclipse.prototype.goToBack = function () {
+        var _ = this;
+
+        _.initials.computedNextIndex = 0;
+
+        _.setViewIndex(_.initials.computedNextIndex);
+
+        _.slidesMoveEach(_.$appClone);
+        _.slidesMoveEach(_.$preClone);
+        _.slidesMoveEach(_.$slides, function () {
+            _.afterationAction();
         });
+    }
 
-        _.$slides.each(function () {
-            motionScript(this);
-        }).promise().done(function () {
-            _.setActiveClass(_.$slides);
+    Eclipse.prototype.goToPrev = function () {
+        var _ = this;
+
+        _.initials.thisPageIndex--;
+        _.initials.thisPageIndex = _.initials.thisPageIndex !== -1 ? _.initials.thisPageIndex : _.initials.arrayCheckPoint.length - 1;
+
+        if (_.options.slidesToMove !== 1) {
+            if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 1) {
+                _.initials.computedNextIndex = -_.options.slidesToShow;
+            } else {
+                if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 2) {
+                    _.initials.computedNextIndex = _.initials.arrayCheckPoint.slice(-2)[0] - _.initials.arrayCheckPoint.slice(-1)[0];
+                } else {
+                    _.initials.computedNextIndex = -_.options.slidesToMove;
+                }
+            }
+        } else {
+            _.initials.computedNextIndex = -1;
+        }
+
+        _.setViewIndex(_.initials.computedNextIndex);
+
+        _.slidesMoveEach(_.$appClone);
+        _.slidesMoveEach(_.$preClone);
+        _.slidesMoveEach(_.$slides, function () {
+            _.afterationAction();
+        });
+    }
+
+    Eclipse.prototype.goToNext = function () {
+        var _ = this;
+
+        _.initials.thisPageIndex++;
+        _.initials.thisPageIndex = _.initials.thisPageIndex !== _.initials.arrayCheckPoint.length ? _.initials.thisPageIndex : 0;
+
+        if (_.options.slidesToMove !== 1) {
+            if (_.initials.thisPageIndex == _.initials.arrayCheckPoint.length - 1) {
+                _.initials.computedNextIndex = _.initials.arrayCheckPoint.slice(-1)[0] - _.initials.arrayCheckPoint.slice(-2)[0];
+            } else {
+                if (_.initials.thisPageIndex == 0) {
+                    _.initials.computedNextIndex = _.options.slidesToShow;
+                } else {
+                    _.initials.computedNextIndex = _.options.slidesToMove;
+                }
+            }
+        } else {
+            _.initials.computedNextIndex = 1;
+        }
+
+        _.setViewIndex(_.initials.computedNextIndex);
+
+        _.slidesMoveEach(_.$appClone);
+        _.slidesMoveEach(_.$preClone);
+        _.slidesMoveEach(_.$slides, function () {
             _.afterationAction();
         });
     }
 
     Eclipse.prototype.goToSlides = function (nextIndex) {
         var _ = this;
-        var thisIndex = _.initials.viewIndex[0];
 
         _.initials.thisPageIndex = _.initials.arrayCheckPoint.indexOf(nextIndex);
 
         if (_.initials.viewIndex[0] !== nextIndex && !_.initials.playActionFlag) {
             _.preparationAction(function () {
-                var computedNextIndex = nextIndex;
-        
-                function motionScript (target) {
-                    target.point += (thisIndex - computedNextIndex);
-                    target.left = target.width * target.point + (_.options.margin * target.point);
-                    target.transform = 'translate3d(' + target.left + 'px, 0, 0)';
-                    $(target).stop().css(_.autoPrefixer(0, _.initials.transition, target.transform));
-                }
+                _.initials.computedNextIndex = -(_.initials.viewIndex[0] - nextIndex);
 
-                _.setViewIndex(computedNextIndex - _.initials.viewIndex[0]);
+                _.setViewIndex(nextIndex - _.initials.viewIndex[0]);
 
-                $(_.$appClone).each(function () {
-                    motionScript(this);
-                }).promise().done(function () {
-                    _.setActiveClass($(_.$appClone));
-                });
-        
-                $(_.$preClone).each(function () {
-                    motionScript(this);
-                }).promise().done(function () {
-                    _.setActiveClass($(_.$preClone));
-                });
-
-                _.$slides.each(function () {
-                    motionScript(this);
-                }).promise().done(function () {
-                    _.setActiveClass(_.$slides);
+                _.slidesMoveEach(_.$appClone);
+                _.slidesMoveEach(_.$preClone);
+                _.slidesMoveEach(_.$slides, function () {
                     _.afterationAction();
                 });
             });
@@ -399,7 +403,6 @@
     }
 
     Eclipse.prototype.setRemoveClass = function (target) {
-        
         target.isView = undefined;
         for (var j = 0; j < _.initials.viewIndex.length; j++) {
             if (target.index === _.initials.viewIndex[j]) {
@@ -454,9 +457,8 @@
         _.setPagerClass();
     }
 
-    Eclipse.prototype.autoPrefixer = function (left, transition, transform) {
+    Eclipse.prototype.autoPrefixer = function (transition, transform) {
         return {
-            'left': left,
             '-webkit-transition': transition,
             '-moz-transition': transition,
             '-ms-transition': transition,
@@ -528,7 +530,7 @@
     
                 indexTemp.push(i);
     
-                $(this).css({'width': this.width}).css(_.autoPrefixer(0, 'none', this.transform));
+                $(this).css({'width': this.width}).css(_.autoPrefixer('none', this.transform));
             }).promise().done(function () {
                 for (var i = 0; i < 3; i++) {
                     _.initials.computedIndexArray.push.apply(_.initials.computedIndexArray, indexTemp);
@@ -597,19 +599,19 @@
         $(_.$appClone).each(function () {
             this.move = this.left - _.initials.clickMovePosX;
             this.transform = 'translate3d(' + this.move + 'px, 0, 0)';
-            $(this).stop().css(_.autoPrefixer(0, 'none', this.transform));
+            $(this).stop().css(_.autoPrefixer('none', this.transform));
         });
 
         $(_.$preClone).each(function () {
             this.move = this.left - _.initials.clickMovePosX;
             this.transform = 'translate3d(' + this.move + 'px, 0, 0)';
-            $(this).stop().css(_.autoPrefixer(0, 'none', this.transform));
+            $(this).stop().css(_.autoPrefixer('none', this.transform));
         });
 
         _.$slides.each(function () {
             this.move = this.left - _.initials.clickMovePosX;
             this.transform = 'translate3d(' + this.move + 'px, 0, 0)';
-            $(this).stop().css(_.autoPrefixer(0, 'none', this.transform));
+            $(this).stop().css(_.autoPrefixer('none', this.transform));
         });
     }
 
@@ -618,13 +620,13 @@
 
         if (Math.abs(_.initials.clickMovePosX) > _.options.friction) {
             if (_.initials.clickMovePosX > 0) {
-                _.goToSlidesPrevOrNext('next');
+                _.goToNext();
             }
             if (_.initials.clickMovePosX < 0) {
-                _.goToSlidesPrevOrNext('prev');
+                _.goToPrev();
             }
         } else {
-            _.goToSlidesPrevOrNext(0);
+            _.goToBack();
         }
         $(document).off(_.events.clickmove);
         $(document).off(_.events.clickend);
@@ -653,7 +655,7 @@
         if (_.$arrowPrev) {
             _.$arrowPrev.on(_.events.click, function () {
                 _.preparationAction(function () {
-                    _.goToSlidesPrevOrNext('prev');
+                    _.goToPrev();
                 });
             });
         }
@@ -661,7 +663,7 @@
         if (_.$arrowNext) {
             _.$arrowNext.on(_.events.click, function () {
                 _.preparationAction(function () {
-                    _.goToSlidesPrevOrNext('next');
+                    _.goToNext();
                 });
             });
         }
@@ -682,18 +684,19 @@
         }
     }
 
-    Eclipse.prototype.goSlides = function (index) {
+    Eclipse.prototype.indexToPage = function (index) {
         var _ = this;
+        var result = 0;
 
-        var nextIndex = 0;
         for (var i = 1; i < _.initials.arrayCheckPoint.length; i++) {
             if ((index < _.initials.arrayCheckPoint[i] && index >= _.initials.arrayCheckPoint[i - 1])) {
-                nextIndex = i - 1;
+                result = i - 1;
             } else if (index >= _.initials.arrayCheckPoint[i]) {
-                nextIndex = i;
+                result = i;
             }
         }
-        _.goToSlides(_.initials.arrayCheckPoint[nextIndex]);
+
+        return result;
     }
 
     Eclipse.prototype.setAutoplay = function () {
@@ -711,7 +714,7 @@
         _.$autoStop.removeClass('eclipse-hide');
         _.initials.autoplayInterval = setInterval(function () {
             _.preparationAction(function () {
-                _.goToSlidesPrevOrNext('next');
+                _.goToNext();
             });
         }, _.options.interval);
     }
@@ -778,7 +781,7 @@
                 this.width = (_.initials.sliderWidth - (_.options.slidesToShow - 1) * _.options.margin) / _.options.slidesToShow;
                 this.left = this.index == _.options.startIndex ? this.width * this.point : (this.width * this.point) + (this.point * _.options.margin);
                 this.transform = 'translate3d(' + this.left + 'px, 0, 0)';
-                $(this).css({'width': this.width}).css(_.autoPrefixer(0, 'none', this.transform));
+                $(this).css({'width': this.width}).css(_.autoPrefixer('none', this.transform));
             }).promise().done(function () {
                 _.$slides.each(function () {
                     this.height = $(this).height();
@@ -806,22 +809,16 @@
                     _.$slider.find('img').each(function () {
                         if (this.complete) {
                             this.loaded = true;
-                            if (++idx === max) {
-                                callback();
-                            }
+                            if (++idx === max) {callback();}
                         } else {
                             $(this).on({
                                 'load': function () {
                                     this.loaded = true;
-                                    if (++idx === max) {
-                                        callback();
-                                    }
+                                    if (++idx === max) {callback();}
                                 },
                                 'error': function () {
                                     this.loaded = true;
-                                    if (++idx === max) {
-                                        callback();
-                                    }
+                                    if (++idx === max) {callback();}
                                 }
                             })
                         }
@@ -863,8 +860,6 @@
     }
 
     Eclipse.prototype.getEclipse = function () {
-        var _ = this;
-
         return this;
     }
 
@@ -878,22 +873,20 @@
         if (target !== null && typeof target === 'object') {
             if (target.length) {
                 var isEclipse = target[0].eclipsed;
-                if (isEclipse == undefined && idx2 < 50) {
-                    console.log(idx2);
+                if (isEclipse == undefined && idx2 < 500) {
                     idx2++;
                     setTimeout(function () {
                         _.checkConnected();
-                    }, 1);
+                    }, 20);
                 } else {
                     _.setConnected(_.initials.viewIndex[0]);
                 }
             } else {
-                if (idx1 < 50) {
-                    console.log(idx1);
+                if (idx1 < 500) {
                     idx1++;
                     setTimeout(function () {
                         _.checkConnected();
-                    }, 1);
+                    }, 20);
                 }
             }
         }
@@ -922,10 +915,7 @@
             _.setEvents();
             _.setAutoplay();
             _.resizeSlider();
-            // _.setConnected(_.initials.viewIndex[0]);
-            if (_.options.connected) {
-                _.checkConnected();
-            }
+            _.checkConnected();
             _.$eclipse[0].eclipsed = true;
         });
     }
