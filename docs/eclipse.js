@@ -211,8 +211,10 @@
         var _ = this;
         
         if (_.options.connected) {
-            _.options.connected.eclipse('goSlides', index);
-            _.options.connected.eclipse('connectedActiveClass', index);
+            var target = $(_.options.connected).eclipse('getEclipse');
+            target.options.connectedIndex = index;
+            target.$eclipse.eclipse('goSlides', index);
+            target.$eclipse.eclipse('connectedActiveClass', index);
         }
     }
 
@@ -247,7 +249,7 @@
     Eclipse.prototype.connectedActiveClass = function (index) {
         var _ = this;
 
-        _.$slides.eq(index).addClass('eclipse-connected-active').siblings().removeClass('eclipse-connected-active');
+        _.$slides.eq(index + _.options.countIndex).addClass('eclipse-connected-active').siblings().removeClass('eclipse-connected-active');
     }
 
     Eclipse.prototype.removeClone = function (target) {
@@ -388,6 +390,9 @@
             for (var j = 0; j < _.initials.viewIndex.length; j++) {
                 if (this.index === _.initials.viewIndex[j]) {
                     $(this).addClass('eclipse-active eclipse-active-'+(j + 1));
+                }
+                if (j === 0 && this.index === _.initials.viewIndex[j + _.options.countIndex] && _.options.connected !== null) {
+                    $(this).addClass('eclipse-connected-active').siblings().removeClass('eclipse-connected-active');
                 }
             }
         })
@@ -857,6 +862,44 @@
         _.$slides = _.$slider.children().addClass('eclipse-slides');
     }
 
+    Eclipse.prototype.getEclipse = function () {
+        var _ = this;
+
+        return this;
+    }
+
+    Eclipse.prototype.checkConnected = function () {
+        var _ = this;
+
+        var target = $(_.options.connected);
+        var idx1 = 0;
+        var idx2 = 0;
+
+        if (target !== null && typeof target === 'object') {
+            if (target.length) {
+                var isEclipse = target[0].eclipsed;
+                if (isEclipse == undefined && idx2 < 50) {
+                    console.log(idx2);
+                    idx2++;
+                    setTimeout(function () {
+                        _.checkConnected();
+                    }, 1);
+                } else {
+                    _.setConnected(_.initials.viewIndex[0]);
+                }
+            } else {
+                if (idx1 < 50) {
+                    console.log(idx1);
+                    idx1++;
+                    setTimeout(function () {
+                        _.checkConnected();
+                    }, 1);
+                }
+            }
+        }
+
+    }
+
     Eclipse.prototype.reinit = function () {
         var _ = this;
 
@@ -879,7 +922,11 @@
             _.setEvents();
             _.setAutoplay();
             _.resizeSlider();
-            _.setConnected(_.initials.viewIndex[0]);
+            // _.setConnected(_.initials.viewIndex[0]);
+            if (_.options.connected) {
+                _.checkConnected();
+            }
+            _.$eclipse[0].eclipsed = true;
         });
     }
 
