@@ -847,6 +847,7 @@
             _.$slider.off(_.events.clickstart).attr('style', _.$slider.data('originalStyling'));
             _.removeElements();
             _.emptyInitials();
+            _.$eclipse[0].eclipsed = false;
             if (callback) {callback();}
         });
     }
@@ -904,6 +905,7 @@
     Eclipse.prototype.init = function () {
         var _ = this;
 
+        if (_.$eclipse[0].eclipsed) {return;}
         _.setGlobalClass();
         _.setSlidesCSS();
         _.setInitials();
