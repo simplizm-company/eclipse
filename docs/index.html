@@ -412,7 +412,7 @@ td, th {vertical-align: middle;}
 
                             var index = 1;
                             $('#appendSlide').on('click', function () {
-                                $('#eclipse7 .eclipse-slider').append(`<div>${++index}</div>`);
+                                $('#eclipse7 .eclipse-slider').append('<div>'+(++index)+'</div>');
                                 $eclipse7.eclipse('reinit');
                             });
                             $('#removeSlide').on('click', function () {
