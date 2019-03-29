@@ -10,62 +10,6 @@
 ;(function($){
     'use strict';
 
-    $.event.special.clickstart = {
-        setup: function() {
-            var isTouchSupported = 'ontouchstart' in document;
-            var clickstart = isTouchSupported ? 'touchstart' : 'mousedown';
-            $(this).bind(clickstart + '.clickstart-event', function(event) {
-                event.type = 'clickstart';
-                if (isTouchSupported) {
-                    event.posX = event.originalEvent.touches[0].pageX;
-                    event.posY = event.originalEvent.touches[0].pageY;
-                } else {
-                    event.posX = event.pageX;
-                    event.posY = event.pageY;
-                }
-                ($.event.dispatch||$.event.handle).call(this, event);
-            });
-        },
-        teardown: function() {
-            $(this).unbind('.clickstart-event');
-        }
-    };
-
-    $.event.special.clickmove = {
-        setup: function() {
-            var isTouchSupported = 'ontouchmove' in document;
-            var clickmove = isTouchSupported ? 'touchmove' : 'mousemove';
-            $(this).bind(clickmove + '.clickmove-event', function(event) {
-                event.type = 'clickmove';
-                if (isTouchSupported) {
-                    event.posX = event.originalEvent.touches[0].pageX;
-                    event.posY = event.originalEvent.touches[0].pageY;
-                } else {
-                    event.posX = event.pageX;
-                    event.posY = event.pageY;
-                }
-                ($.event.dispatch||$.event.handle).call(this, event);
-            });
-        },
-        teardown: function() {
-            $(this).unbind('.clickmove-event');
-        }
-    };
-
-    $.event.special.clickend = {
-        setup: function() {
-            var isTouchSupported = 'ontouchend' in document;
-            var clickend = isTouchSupported ? 'touchend' : 'mouseup';
-            $(this).bind(clickend + '.clickend-event', function(event) {
-                event.type = 'clickend';
-                ($.event.dispatch||$.event.handle).call(this, event);
-            });
-        },
-        teardown: function() {
-            $(this).unbind('.clickend-event');
-        }
-    };
-
     var Eclipse = window.Eclipse || {};
 
     Eclipse = (function(){
@@ -136,6 +80,54 @@
 
         return eclipse;
     }());
+
+    Eclipse.prototype.touchAndMouseEvents = (function () {
+        var eventType = {
+            clickstart: 'ontouchstart' in document ? 'touchstart' : 'mousedown',
+            clickmove: 'ontouchmove' in document ? 'touchmove' : 'mousemove',
+            clickend: 'ontouchend' in document ? 'touchend' : 'mouseup'
+        }
+    
+        $.event.special.clickstart = {
+            setup: function() {
+                $(this).on(eventType.clickstart + '.clickstart', function (e) {
+                    e.type = 'clickstart';
+                    e.pageX = e.pageX || e.originalEvent.touches[0].pageX;
+                    e.pageY = e.pageY || e.originalEvent.touches[0].pageY;
+                    ($.event.dispatch||$.event.handle).call(this, e);
+                });
+            },
+            teardown: function() {
+                $(this).off('.clickstart');
+            }
+        };
+    
+        $.event.special.clickmove = {
+            setup: function() {
+                $(this).on(eventType.clickmove + '.clickmove', function (e) {
+                    e.type = 'clickmove';
+                    e.pageX = e.pageX || e.originalEvent.touches[0].pageX;
+                    e.pageY = e.pageY || e.originalEvent.touches[0].pageY;
+                    ($.event.dispatch||$.event.handle).call(this, e);
+                });
+            },
+            teardown: function() {
+                $(this).off('.clickmove');
+            }
+        };
+    
+        $.event.special.clickend = {
+            setup: function() {
+                $(this).on(eventType.clickend + '.clickend', function (e) {
+                    e.type = 'clickend';
+                    ($.event.dispatch||$.event.handle).call(this, e);
+                });
+            },
+            teardown: function() {
+                $(this).off('.clickend');
+            }
+        };
+    })();
 
     Eclipse.prototype.preparationAction = function (callback) {
         var _ = this;
@@ -571,8 +563,8 @@
         e.stopPropagation();
 
         if (!_.initials.playActionFlag && _.initials.slidesCount > _.options.slidesToShow) {
-            _.initials.clickStartPosX = e.posX;
-            _.initials.clickStartPosY = e.posY;
+            _.initials.clickStartPosX = e.pageX;
+            _.initials.clickStartPosY = e.pageY;
 
             $(document).on(_.events.clickmove, function (e) {
                 _.clickMove(e);
@@ -589,8 +581,8 @@
 
         e.preventDefault();
 
-        _.initials.clickMovePosX = _.initials.clickStartPosX - e.posX;
-        _.initials.clickMovePosY = _.initials.clickStartPosY - e.posY;
+        _.initials.clickMovePosX = _.initials.clickStartPosX - e.pageX;
+        _.initials.clickMovePosY = _.initials.clickStartPosY - e.pageY;
 
         _.initials.clickMovePosX = Math.abs(_.initials.clickMovePosY) > Math.abs(_.initials.clickMovePosX) ? 0 : _.initials.clickMovePosX;
 
