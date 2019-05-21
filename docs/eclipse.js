@@ -37,7 +37,7 @@
                 connectedPager: false
             }
 
-            _.options = $.extend({}, _.defaults, settings);
+            _.options = $.extend(true, _.defaults, settings);
 
             _.initials = {
                 fnidx: ++fnidx,
